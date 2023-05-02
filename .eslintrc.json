@@ -1,6 +1,4 @@
 {
-	"extends": ["eslint:recommended", "next", "prettier"],
-	"rules": {
-		"sort-imports": "error"
-	}
+  "extends": ["eslint:recommended", "next", "prettier"],
+  "rules": {}
 }

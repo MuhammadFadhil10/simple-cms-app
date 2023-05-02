@@ -5,7 +5,7 @@
 	"semi": true,
 	"jsxSingleQuote": false,
 	"singleQuote": false,
-	"useTabs": true,
+	"useTabs": false,
 	"tabWidth": 2,
 	"arrowParens": "always"
 }
