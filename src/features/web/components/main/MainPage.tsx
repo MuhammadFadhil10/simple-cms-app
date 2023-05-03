@@ -7,12 +7,12 @@ import { useMain } from "@/features/web";
 
 export const MainPage = React.memo(function MainPage() {
   const { memoizedCurrentTheme } = useMain();
-
+  console.log("memoizedCurrentTheme: ", memoizedCurrentTheme);
   return (
     <Stack
       sx={{
-        width: `${100 / 1.5}vw`,
-        minHeight: `${100 / 1.5}vh`,
+        width: `${100}vw`,
+        minHeight: `${100}vh`,
         position: "absolute",
         top: "50%",
         left: "50%",

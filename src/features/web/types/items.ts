@@ -12,3 +12,8 @@ export interface Item {
   type: ItemTypes;
   properties: SharedItemProperties;
 }
+
+// button
+export interface ButtonProperties extends SharedItemProperties {
+  variant: "contained" | "outlined" | "text";
+}

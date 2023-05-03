@@ -2,7 +2,7 @@ import { WebTheme } from "@/features/types";
 
 export const webThemes: WebTheme[] = [
   {
-    id: Math.random().toString(),
+    id: "LightID",
     name: "light",
     colors: {
       pageColor: "white",
@@ -11,7 +11,7 @@ export const webThemes: WebTheme[] = [
     },
   },
   {
-    id: Math.random().toString(),
+    id: "DarkID",
     name: "dark",
     colors: {
       pageColor: "#1B2430",

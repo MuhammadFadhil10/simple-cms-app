@@ -1,26 +1,31 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
+// import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-
 import { items } from "@/features/web";
+// import { useDrag, DragSourceMonitor } from "react-dnd";
+import { ItemRender } from "./ItemRender";
 
 export const ItemsSection = React.memo(function ItemsSection() {
+  //   const [{ isDragging }, drag] = useDrag(
+  //     () => ({
+  //       type: "test",
+  //       //   canDrag: !forbidDrag,
+  //       collect: (monitor: DragSourceMonitor) => ({
+  //         isDragging: monitor.isDragging(),
+  //       }),
+  //     }),
+  //     []
+  //   );
+
   return (
-    <Stack
-      sx={{ width: "100%", height: "100%", backgroundColor: "red", px: 1 }}
-    >
+    <Stack sx={{ width: "100%", height: "100%", px: 1 }}>
       <Stack sx={{ width: "100%" }}>
         <Typography>Items</Typography>
       </Stack>
       <Stack sx={{ width: "100%" }}>
-        {items.map((item) => (
-          <Box sx={{ cursor: "pointer" }} key={item.id}>
-            <Box
-              sx={{ width: "50px", height: "50px", backgroundColor: "blue" }}
-            ></Box>
-            <Typography>{item.name}</Typography>
-          </Box>
+        {items.map((item, index) => (
+          <ItemRender key={item.id ?? index} item={item} />
         ))}
       </Stack>
     </Stack>
