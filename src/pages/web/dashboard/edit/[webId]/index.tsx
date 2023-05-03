@@ -1,4 +1,4 @@
-import { WebEditor } from "@/features/routes";
+import { WebEditor } from "@/features/web";
 
 const WebEditorPage = () => {
   return <WebEditor />;

@@ -1,4 +1,4 @@
-import { CreateWeb } from "@/features/routes";
+import { CreateWeb } from "@/features/web";
 
 const CreateWebPage = () => {
   return <CreateWeb />;
