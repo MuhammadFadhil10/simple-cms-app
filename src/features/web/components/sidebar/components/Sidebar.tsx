@@ -2,15 +2,17 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 // import Typography from "@mui/material/Typography";
 import { ItemsSection } from "./elements/ItemsSection";
+import { useAppStore } from "@/features/web/hooks";
 
 export const Sidebar = React.memo(function Sidebar() {
-  const show = true;
+  const { sidebarOpen } = useAppStore();
+
   return (
     <>
-      {show && (
+      {sidebarOpen && (
         <Stack
           sx={{
-            width: "300px",
+            width: "20vw",
             backgroundColor: "white",
             height: "100vh",
             position: "absolute",

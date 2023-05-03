@@ -1,12 +1,15 @@
 import * as React from "react";
 import { useSection } from "../hooks/useSection";
 import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
+import Add from "@mui/icons-material/Add";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { ButtonProperties, Item, ItemTypes } from "@/features/web";
+import { ButtonProperties, Item, ItemTypes, useAppStore } from "@/features/web";
 
 export const SectionWrapper = React.memo(function SectionWrapper() {
   const { memoizedSectionWidth, acceptedItems } = useSection();
+  const { setSidebarOpen } = useAppStore();
 
   const [itemType, setItemType] = React.useState<ItemTypes | null>(null);
   const [itemDropped, setItemDropped] = React.useState<Item | null>(null);
@@ -44,6 +47,11 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
         marginTop: 1,
       })}
     >
+      {!itemDropped && (
+        <IconButton onClick={() => setSidebarOpen(true)}>
+          <Add color="primary" />
+        </IconButton>
+      )}
       {itemType === "button" && (
         <Button
           sx={{ ...itemDropped?.properties.style }}
