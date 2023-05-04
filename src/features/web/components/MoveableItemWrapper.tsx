@@ -1,24 +1,29 @@
 import * as React from "react";
-// import { Item } from "../types";
+import { Item } from "../types";
 import Moveable from "react-moveable";
 
 interface Props {
-  //   item: Item;
+  item: Item;
   sectionRef: HTMLDivElement;
   children: React.ReactNode;
 }
 
 export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
-  //   item,
+  item,
   sectionRef,
   children,
 }: Props) {
   const targetRef = React.useRef<HTMLDivElement>(null);
   const moveableRef = React.useRef<Moveable>(null);
 
+  const { height, width } = item?.properties.style ?? {
+    height: "100px",
+    width: "100px",
+  };
+
   return (
     <>
-      <div ref={targetRef} className="target">
+      <div ref={targetRef} className="target" style={{ height, width }}>
         {children}
       </div>
       {targetRef && (
@@ -39,15 +44,13 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
           throttleDragRotate={0}
           resizable={true}
           bounds={{
-            left: sectionRef?.offsetLeft,
-            top: sectionRef?.offsetTop,
-            right:
-              window.innerWidth - sectionRef?.getBoundingClientRect().right,
-            bottom:
-              window.innerHeight - sectionRef?.getBoundingClientRect().bottom,
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
             position: "css",
           }}
-          edge={[]}
+          snapContainer={sectionRef}
           onDrag={(e) => {
             e.target.style.transform = e.transform;
           }}

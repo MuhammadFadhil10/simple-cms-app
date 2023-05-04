@@ -2,13 +2,11 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { SectionWrapper } from "./SectionWrapper";
 import { useSection } from "../hooks";
-import Moveable from "react-moveable";
 
 export const Section = React.memo(function Memo() {
   const { memoizedSectionWidth } = useSection();
 
   const sectionWrapperRef = React.useRef<HTMLDivElement>(null);
-  const moveableRef = React.useRef<Moveable>(null);
 
   return (
     <>
@@ -27,45 +25,8 @@ export const Section = React.memo(function Memo() {
           marginTop: 1,
         })}
       >
-        <SectionWrapper ref={sectionWrapperRef} />
+        <SectionWrapper />
       </Stack>
-      {sectionWrapperRef?.current && (
-        <Moveable
-          ref={moveableRef}
-          target={sectionWrapperRef.current}
-          origin={false}
-          keepRatio={false}
-          snappable={true}
-          snapDirections={{ top: true, left: true, bottom: true, right: true }}
-          snapThreshold={5}
-          verticalGuidelines={[50, 150, 250, 450, 550]}
-          horizontalGuidelines={[0, 100, 200, 400, 500]}
-          draggable={false}
-          throttleDrag={1}
-          edgeDraggable={false}
-          startDragRotate={0}
-          throttleDragRotate={0}
-          resizable={true}
-          bounds={{
-            left: 0,
-            top: 0,
-            right: 0,
-            bottom: undefined,
-            position: "css",
-          }}
-          edge={[]}
-          // onDrag={(e) => {
-          //   e.target.style.transform = e.transform;
-          //   console.log("sectionRefState: ", sectionRefState);
-          // }}
-          onResize={(e) => {
-            e.target.style.width = `${e.width}px`;
-            e.target.style.height = `${e.height}px`;
-            e.target.style.transform = e.drag.transform;
-          }}
-          renderDirections={["s"]}
-        />
-      )}
     </>
   );
 });

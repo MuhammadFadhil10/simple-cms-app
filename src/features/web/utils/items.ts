@@ -7,7 +7,10 @@ export const items: Item[] = [
     type: "button",
     properties: {
       event: null,
-      style: {},
+      style: {
+        height: "30px",
+        width: "100px",
+      },
       variant: "contained",
     } as ButtonProperties,
   },

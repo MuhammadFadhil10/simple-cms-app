@@ -27,7 +27,7 @@ export const MainPage = React.memo(function MainPage() {
   return (
     <Stack
       sx={{
-        width: sidebarOpen ? "80vw" : "100vw",
+        width: "100vw",
         minHeight: `${100}vh`,
         position: "absolute",
         ...memoizedPosition,
