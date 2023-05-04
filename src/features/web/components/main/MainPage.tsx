@@ -1,8 +1,7 @@
 import * as React from "react";
 
 import Stack from "@mui/material/Stack";
-import { SectionWrapper } from "../section";
-
+import { Section } from "../section";
 import { useAppStore, useMain } from "@/features/web";
 
 export const MainPage = React.memo(function MainPage() {
@@ -38,7 +37,7 @@ export const MainPage = React.memo(function MainPage() {
       }}
       onClick={() => sidebarOpen && setSidebarOpen(false)}
     >
-      <SectionWrapper></SectionWrapper>
+      <Section />
     </Stack>
   );
 });

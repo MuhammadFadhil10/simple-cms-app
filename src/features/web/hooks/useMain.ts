@@ -17,9 +17,6 @@ export const useMain = () => {
   const memoizedCurrentTheme = React.useMemo(() => {
     const themeId = (memoizedCurrentWeb as any)?.themeId;
 
-    console.log("themeId: ", themeId);
-    console.log("webThemes: ", webThemes);
-
     const theme: WebTheme = webThemes.find(
       (theme) => theme.id === themeId
     ) as WebTheme;
