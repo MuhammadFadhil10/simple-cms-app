@@ -5,7 +5,6 @@ import Moveable from "react-moveable";
 interface Props {
   //   item: Item;
   sectionRef: HTMLDivElement;
-  sectionRefState: any;
   children: React.ReactNode;
 }
 
@@ -13,11 +12,9 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
   //   item,
   sectionRef,
   children,
-  sectionRefState,
 }: Props) {
   const targetRef = React.useRef<HTMLDivElement>(null);
   const moveableRef = React.useRef<Moveable>(null);
-
 
   return (
     <>
@@ -53,7 +50,6 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
           edge={[]}
           onDrag={(e) => {
             e.target.style.transform = e.transform;
-            console.log("sectionRefState: ", sectionRefState);
           }}
           onResize={(e) => {
             e.target.style.width = `${e.width}px`;

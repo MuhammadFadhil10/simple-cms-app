@@ -20,8 +20,6 @@ export const SectionWrapper = React.forwardRef(function SectionWrapper(
 
   const [itemType, setItemType] = React.useState<ItemTypes | null>(null);
   const [itemDropped, setItemDropped] = React.useState<Item | null>(null);
-  // const [items, setItems] = React.useState<Item[]>([]);
-  const [sectionBoundRef] = React.useState<HTMLDivElement>();
 
   const [, drop] = useDrop(
     () => ({
@@ -84,7 +82,6 @@ export const SectionWrapper = React.forwardRef(function SectionWrapper(
               (ref as React.RefObject<HTMLDivElement>)
                 ?.current as HTMLDivElement
             }
-            sectionRefState={sectionBoundRef?.offsetLeft}
           >
             {itemDropped?.type === "button" && (
               <ButtonItem item={itemDropped as Item} />

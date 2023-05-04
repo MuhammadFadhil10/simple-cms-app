@@ -8,14 +8,12 @@ export const Section = React.memo(function Memo() {
   const { memoizedSectionWidth } = useSection();
 
   const sectionWrapperRef = React.useRef<HTMLDivElement>(null);
-  const targetRef = React.useRef<HTMLDivElement>(null);
   const moveableRef = React.useRef<Moveable>(null);
 
   return (
     <>
-      <div ref={targetRef} className="targetasddasadsawsdds"></div>
       <Stack
-        component="div"
+        component="section"
         ref={sectionWrapperRef}
         alignItems="center"
         justifyContent="center"
@@ -31,10 +29,10 @@ export const Section = React.memo(function Memo() {
       >
         <SectionWrapper ref={sectionWrapperRef} />
       </Stack>
-      {sectionWrapperRef && (
+      {sectionWrapperRef?.current && (
         <Moveable
           ref={moveableRef}
-          target={sectionWrapperRef}
+          target={sectionWrapperRef.current}
           origin={false}
           keepRatio={false}
           snappable={true}
@@ -52,7 +50,7 @@ export const Section = React.memo(function Memo() {
             left: 0,
             top: 0,
             right: 0,
-            bottom: 0,
+            bottom: undefined,
             position: "css",
           }}
           edge={[]}
