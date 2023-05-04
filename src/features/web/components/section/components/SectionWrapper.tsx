@@ -29,8 +29,7 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
       accept: acceptedItems.map((item) => item.type),
       drop(_item: string, monitor) {
         const type = monitor.getItemType();
-
-        handleCreateMoveable(type as ItemTypes);
+        handleCreateMoveable(type as ItemTypes, localStorage?.webId as string);
         return undefined;
       },
       collect: (monitor: DropTargetMonitor) => ({
@@ -76,7 +75,7 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
 
         {/* item */}
         {currentMoveables
-          .filter((item) => item.webId === (webId as string))
+          .filter((item) => item.webId === (localStorage.webId as string))
           .map((item) => (
             <>
               {item.type === "button" && (

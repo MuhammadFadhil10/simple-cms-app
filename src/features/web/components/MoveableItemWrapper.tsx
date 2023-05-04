@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Item } from "../types";
 import Moveable from "react-moveable";
+import { useMoveable } from "../hooks";
 
 interface Props {
   item: Item;
@@ -13,8 +14,10 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
   sectionRef,
   children,
 }: Props) {
+  const { updateMoveableProps } = useMoveable();
+
   const targetRef = React.useRef<HTMLDivElement>(null);
-  const moveableRef = React.useRef<Moveable>(null);
+  // const moveableRef = React.useRef<Moveable>(null);
 
   const { height, width } = item?.properties.style ?? {
     height: "100px",
@@ -24,11 +27,11 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
   return (
     <>
       <div ref={targetRef} className="target" style={{ height, width }}>
-        {children}
+        <div>{children}</div>
       </div>
-      {targetRef && (
+      {targetRef?.current && (
         <Moveable
-          ref={moveableRef}
+          // ref={moveableRef}
           target={targetRef}
           origin={false}
           keepRatio={false}
@@ -54,6 +57,13 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
           onDrag={(e) => {
             e.target.style.transform = e.transform;
             console.log("e: ", e);
+            updateMoveableProps(item.id, {
+              ...item.properties,
+              style: {
+                ...item.properties.style,
+                transform: e.target.style.transform,
+              },
+            });
           }}
           onResize={(e) => {
             e.target.style.width = `${e.width}px`;
