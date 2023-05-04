@@ -1,12 +1,15 @@
 import * as React from "react";
-import { Field, GlobalContentSizing } from "../types";
+import { Field, GlobalContentSizing, Web } from "../types";
 import { webThemes } from "../web";
 import { useRouter } from "next/router";
 
 export const useWeb = () => {
   const router = useRouter();
 
+  const { webId } = router.query;
+
   const [openCreateWebModal, setOpenCreateModal] = React.useState(false);
+  const [webList, setWebList] = React.useState<Web[]>([]);
 
   // memo
   const createWebFields: Field[] = React.useMemo(() => {
@@ -47,6 +50,12 @@ export const useWeb = () => {
     ] as Field[];
   }, []);
 
+  const memoizedCurrentWeb: Web | undefined = React.useMemo(() => {
+    if (!webList) return;
+
+    return webList.find((web) => web.id === webId);
+  }, [webId, webList]);
+
   // function
   const handleCloseCreateModal = React.useCallback(() => {
     setOpenCreateModal(false);
@@ -75,11 +84,18 @@ export const useWeb = () => {
     [router]
   );
 
+  React.useEffect(() => {
+    if (localStorage.webs) {
+      setWebList(JSON.parse(localStorage.webs));
+    }
+  }, []);
+
   return {
     openCreateWebModal,
     setOpenCreateModal,
     handleCloseCreateModal,
     handleCreateWeb,
     createWebFields,
+    memoizedCurrentWeb,
   };
 };

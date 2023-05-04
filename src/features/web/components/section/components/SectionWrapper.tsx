@@ -5,23 +5,32 @@ import Stack from "@mui/material/Stack";
 import Add from "@mui/icons-material/Add";
 import { useSection } from "../hooks/useSection";
 import { useDrop, DropTargetMonitor } from "react-dnd";
-import { ButtonItem, Item, ItemTypes, useAppStore } from "@/features/web";
+import {
+  ButtonItem,
+  ItemTypes,
+  useAppStore,
+  useMoveable,
+} from "@/features/web";
 import { MoveableItemWrapper } from "../../MoveableItemWrapper";
+import { useRouter } from "next/router";
 
 export const SectionWrapper = React.memo(function SectionWrapper() {
+  const router = useRouter();
+  const { webId } = router.query;
+
   const { acceptedItems } = useSection();
   const { setSidebarOpen } = useAppStore();
+  const { currentMoveables, handleCreateMoveable } = useMoveable();
 
-  const [itemType, setItemType] = React.useState<ItemTypes | null>(null);
-  const [itemDropped, setItemDropped] = React.useState<Item | null>(null);
   const boxRef = React.useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop(
     () => ({
       accept: acceptedItems.map((item) => item.type),
       drop(_item: string, monitor) {
-        setItemType(monitor.getItemType() as ItemTypes);
-        setItemDropped(monitor.getItem());
+        const type = monitor.getItemType();
+
+        handleCreateMoveable(type as ItemTypes);
         return undefined;
       },
       collect: (monitor: DropTargetMonitor) => ({
@@ -58,25 +67,30 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
         }}
       >
         {/* no item */}
-        {!itemDropped && (
+        {currentMoveables.filter((item) => item.webId === (webId as string))
+          .length === 0 && (
           <IconButton onClick={() => setSidebarOpen(true)}>
             <Add color="primary" />
           </IconButton>
         )}
 
         {/* item */}
-        {itemType === "button" && (
-          <>
-            <MoveableItemWrapper
-              sectionRef={boxRef?.current as HTMLDivElement}
-              item={itemDropped as Item}
-            >
-              {itemDropped?.type === "button" && (
-                <ButtonItem item={itemDropped as Item} />
+        {currentMoveables
+          .filter((item) => item.webId === (webId as string))
+          .map((item) => (
+            <>
+              {item.type === "button" && (
+                <>
+                  <MoveableItemWrapper
+                    sectionRef={boxRef?.current as HTMLDivElement}
+                    item={item}
+                  >
+                    <ButtonItem item={item} />
+                  </MoveableItemWrapper>
+                </>
               )}
-            </MoveableItemWrapper>
-          </>
-        )}
+            </>
+          ))}
       </Box>
     </Stack>
   );

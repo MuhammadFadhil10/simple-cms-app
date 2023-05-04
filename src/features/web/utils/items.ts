@@ -3,6 +3,7 @@ import { ButtonProperties, Item } from "../types";
 export const items: Item[] = [
   {
     id: "initialId",
+    webId: "initialId",
     name: "Button",
     type: "button",
     properties: {

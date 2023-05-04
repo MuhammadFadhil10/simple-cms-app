@@ -53,6 +53,7 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
           snapContainer={sectionRef}
           onDrag={(e) => {
             e.target.style.transform = e.transform;
+            console.log("e: ", e);
           }}
           onResize={(e) => {
             e.target.style.width = `${e.width}px`;
