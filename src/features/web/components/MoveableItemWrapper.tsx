@@ -11,7 +11,7 @@ interface Props {
 
 export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
   item,
-  // sectionRef,
+  sectionRef,
   children,
 }: Props) {
   const { updateMoveableProps } = useMoveable();
@@ -61,14 +61,21 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
               startDragRotate={0}
               throttleDragRotate={0}
               resizable={true}
-              // bounds={{
-              //   left: 0,
-              //   top: 0,
-              //   right: 0,
-              //   bottom: 0,
-              //   position: "css",
+              bounds={{
+                left: 0,
+                top: 0,
+                right: 0,
+                bottom: 0,
+                position: "css",
+              }}
+              snapContainer={sectionRef}
+              // scrollable={true}
+              // scrollOptions={{
+              //   container: sectionRef,
+              //   threshold: 30,
+              //   checkScrollEvent: false,
+              //   throttleTime: 0,
               // }}
-              // snapContainer={sectionRef}
               onDrag={(e) => {
                 e.target.style.transform = e.transform;
                 console.log("e: ", e);
@@ -84,6 +91,9 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
                 e.target.style.width = `${e.width}px`;
                 e.target.style.height = `${e.height}px`;
                 e.target.style.transform = e.drag.transform;
+              }}
+              onScroll={({ scrollContainer, direction }) => {
+                scrollContainer.scrollBy(direction[0] * 10, direction[1] * 10);
               }}
               renderDirections={["se"]}
             />

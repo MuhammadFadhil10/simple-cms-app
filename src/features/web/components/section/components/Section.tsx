@@ -14,8 +14,9 @@ export const Section = React.memo(function Memo() {
 
   return (
     <Stack
-      direction="row"
+      // direction="row"
       justifyContent="center"
+      alignItems="center"
       sx={{ width: "100%", minHeight: "auto" }}
     >
       <Stack
@@ -35,9 +36,11 @@ export const Section = React.memo(function Memo() {
       >
         <SectionWrapper />
       </Stack>
-      <IconButton onClick={() => setSidebarOpen(true)}>
-        <Add color="primary" />
-      </IconButton>
+      <Stack alignItems="flex-end" sx={{ width: memoizedSectionWidth }}>
+        <IconButton onClick={() => setSidebarOpen(true)}>
+          <Add color="primary" />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 });
