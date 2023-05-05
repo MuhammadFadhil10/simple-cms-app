@@ -9,6 +9,9 @@ export const useMoveable = () => {
   const [currentMoveables, setCurrentMoveables] = React.useState<Item[]>([]);
 
   // memos
+  const acceptedItems: ItemTypes[] = React.useMemo(() => {
+    return ["button", "image"];
+  }, []);
 
   // functions
   const handleCreateMoveable = React.useCallback(
@@ -124,5 +127,6 @@ export const useMoveable = () => {
     updateMoveableProps,
     handleGetSharedMoveableStyles,
     updateMoveable,
+    acceptedItems,
   };
 };

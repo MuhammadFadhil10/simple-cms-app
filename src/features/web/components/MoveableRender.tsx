@@ -1,71 +1,35 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Selecto from "react-selecto";
 import Moveable from "react-moveable";
-import { useSection } from "../hooks/useSection";
-import { useDrop, DropTargetMonitor } from "react-dnd";
-import {
-  AddItemButton,
-  ButtonItem,
-  ItemTypes,
-  useAppStore,
-  useMoveable,
-} from "@/features/web";
-import { MoveableItemWrapper } from "../../MoveableItemWrapper";
-import { useRouter } from "next/router";
+import { useAppStore, useMoveable } from "@/features/web";
+import { MoveableContainer } from "./MoveableContainer";
 
-export const SectionWrapper = React.memo(function SectionWrapper() {
-  const router = useRouter();
-  const { webId } = router.query;
-
+export const MoveableRender = React.forwardRef(function MoveableRender(
+  // eslint-disable-next-line no-unused-vars
+  props,
+  ref
+) {
   const { activeId, setActiveId } = useAppStore();
-  const { acceptedItems } = useSection();
-  const { currentMoveables, handleCreateMoveable, updateMoveable } =
-    useMoveable();
+  const { currentMoveables, updateMoveable } = useMoveable();
 
   const [targets, setTargets] = React.useState<Array<SVGElement | HTMLElement>>(
     []
   );
-  const boxRef = React.useRef<HTMLDivElement>(null);
   const moveableRef = React.useRef<Moveable>(null);
   const selectoRef = React.useRef<Selecto>(null);
 
-  const [, drop] = useDrop(
-    () => ({
-      accept: acceptedItems,
-      drop(_item: string, monitor) {
-        const type = monitor.getItemType();
-        handleCreateMoveable(type as ItemTypes, localStorage?.webId as string);
-        return undefined;
-      },
-      collect: (monitor: DropTargetMonitor) => ({
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-        draggingColor: monitor.getItemType() as string,
-      }),
-    }),
-    []
-  );
-
   return (
-    <Stack
-      ref={drop}
-      className="container"
-      alignItems="center"
-      justifyContent="center"
-      sx={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: "transparent",
-      }}
-    >
-      {boxRef && (
+    <>
+      {ref && (
         <>
           <Moveable
             ref={moveableRef}
             draggable={true}
-            target={targets.length > 0 ? targets : boxRef.current}
+            target={
+              targets.length > 0
+                ? targets
+                : (ref as React.RefObject<HTMLDivElement>).current
+            }
             zoom={targets.length > 0 ? 1 : 0}
             origin={false}
             keepRatio={false}
@@ -91,7 +55,7 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
               bottom: 0,
               position: "css",
             }}
-            snapContainer={boxRef.current}
+            snapContainer={(ref as React.RefObject<HTMLDivElement>).current}
             renderDirections={["se"]}
             onClickGroup={(e) => {
               selectoRef.current!.clickTarget(e.inputEvent, e.inputTarget);
@@ -100,6 +64,8 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
               e.target.style.transform = e.transform;
             }}
             onDragEnd={(e) => {
+              if (!e.isDrag) return;
+
               const moveable = currentMoveables.find(
                 (item) => item.id === activeId
               );
@@ -127,12 +93,12 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
               e.target.style.height = `${e.height}px`;
               e.target.style.transform = e.drag.transform;
             }}
-          ></Moveable>
+          />
 
           <Selecto
             ref={selectoRef}
-            dragContainer={boxRef.current}
-            boundContainer={boxRef.current}
+            dragContainer={(ref as React.RefObject<HTMLDivElement>).current}
+            boundContainer={(ref as React.RefObject<HTMLDivElement>).current}
             selectableTargets={[".items"]}
             hitRate={0}
             selectByClick={true}
@@ -157,6 +123,9 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
               setActiveId(e.added[0].dataset.id as string);
             }}
             onSelectEnd={(e) => {
+              console.log("e: ", e);
+              if (e.selected.length === 0) return;
+
               const moveable = moveableRef.current!;
               if (e.isDragStart) {
                 e.inputEvent.preventDefault();
@@ -166,35 +135,11 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
                 });
               }
             }}
-          ></Selecto>
+          />
+
+          <MoveableContainer ref={ref} />
         </>
       )}
-      <Box
-        component="div"
-        className="snapContainer elements selecto-area"
-        sx={{
-          width: "100%",
-          height: "80%",
-        }}
-      >
-        {/* no items */}
-        {currentMoveables.filter((item) => item.webId === (webId as string))
-          .length === 0 && <AddItemButton />}
-
-        {/* items */}
-        {currentMoveables
-          .filter((item) => item.webId === (localStorage.webId as string))
-          .map((item) => (
-            <>
-              <MoveableItemWrapper
-                sectionRef={boxRef?.current as HTMLDivElement}
-                item={item}
-              >
-                {item.type === "button" && <ButtonItem item={item} />}
-              </MoveableItemWrapper>
-            </>
-          ))}
-      </Box>
-    </Stack>
+    </>
   );
 });
