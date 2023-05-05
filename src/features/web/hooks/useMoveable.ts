@@ -8,6 +8,9 @@ export const useMoveable = () => {
 
   const [currentMoveables, setCurrentMoveables] = React.useState<Item[]>([]);
 
+  // memos
+
+  // functions
   const handleCreateMoveable = React.useCallback(
     (type: ItemTypes, webId: string) => {
       try {
@@ -27,8 +30,6 @@ export const useMoveable = () => {
 
         const newMoveables = [...oldMoveables, moveable];
 
-        console.log(currentMoveables);
-
         localStorage.setItem("moveables", JSON.stringify(newMoveables));
 
         setCurrentMoveables(newMoveables);
@@ -36,7 +37,7 @@ export const useMoveable = () => {
         console.log("error create moveable: ", error);
       }
     },
-    [currentMoveables, handleGetDefaultProperties]
+    [handleGetDefaultProperties]
   );
 
   const updateMoveableProps = React.useCallback(
@@ -68,6 +69,20 @@ export const useMoveable = () => {
     [currentMoveables]
   );
 
+  const handleGetSharedMoveableStyles = React.useCallback(
+    (item: Item): React.CSSProperties => {
+      const itemProps = item.properties;
+
+      return {
+        ...itemProps.style,
+        width: "100%",
+        height: "100%",
+        transform: "",
+      };
+    },
+    []
+  );
+
   React.useEffect(() => {
     if (localStorage.moveables) {
       setCurrentMoveables(JSON.parse(localStorage.moveables));
@@ -78,5 +93,6 @@ export const useMoveable = () => {
     currentMoveables,
     handleCreateMoveable,
     updateMoveableProps,
+    handleGetSharedMoveableStyles,
   };
 };

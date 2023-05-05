@@ -60,9 +60,9 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
         sx={{
           width: "100%",
           height: "100%",
-          display: "flex",
-          alignItems: "centee",
-          justifyContent: "center",
+          // display: "flex",
+          // alignItems: "centee",
+          // justifyContent: "center",
         }}
       >
         {/* no item */}
