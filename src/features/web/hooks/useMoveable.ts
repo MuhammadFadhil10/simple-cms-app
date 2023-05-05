@@ -41,14 +41,43 @@ export const useMoveable = () => {
   );
 
   const updateMoveableProps = React.useCallback(
-    (itemId: string, payload: ItemPropertiesTypes) => {
+    (itemId: string, field: string, payload: unknown) => {
       const moveable = currentMoveables.find((item) => item.id === itemId);
 
       if (!moveable) return;
 
       let newMoveable: Item = {
         ...moveable,
-        properties: payload,
+        properties: { ...moveable.properties, [field]: payload },
+      };
+
+      const moveableIndex = currentMoveables.findIndex(
+        (item) => item.id === newMoveable.id
+      );
+
+      if (moveableIndex === -1) return;
+
+      currentMoveables.splice(moveableIndex, 1);
+
+      setCurrentMoveables([...currentMoveables, newMoveable]);
+
+      localStorage.setItem(
+        "moveables",
+        JSON.stringify([...currentMoveables, newMoveable])
+      );
+    },
+    [currentMoveables]
+  );
+
+  const updateMoveable = React.useCallback(
+    (itemId: string, payload: Item) => {
+      const moveable = currentMoveables.find((item) => item.id === itemId);
+
+      if (!moveable) return;
+
+      let newMoveable: Item = {
+        ...moveable,
+        ...payload,
       };
 
       const moveableIndex = currentMoveables.findIndex(
@@ -94,5 +123,6 @@ export const useMoveable = () => {
     handleCreateMoveable,
     updateMoveableProps,
     handleGetSharedMoveableStyles,
+    updateMoveable,
   };
 };

@@ -31,6 +31,8 @@
 		"react-dom": "18.2.0",
 		"react-hook-form": "^7.43.9",
 		"react-redux": "^8.0.5",
+		"react-selecto": "^1.22.3",
+		"selecto": "^1.22.3",
 		"typescript": "5.0.4"
 	},
 	"devDependencies": {

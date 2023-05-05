@@ -33,6 +33,7 @@ export const MainPage = React.memo(function MainPage() {
         ...memoizedPosition,
         overflowY: "auto",
         boxShadow: 7,
+        // transform: "scale(0.8)",
         backgroundColor: memoizedCurrentTheme?.colors.pageColor ?? "white",
       }}
       onClick={() => sidebarOpen && setSidebarOpen(false)}

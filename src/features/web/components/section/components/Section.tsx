@@ -1,14 +1,11 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { SectionWrapper } from "./SectionWrapper";
-import IconButton from "@mui/material/IconButton";
-import Add from "@mui/icons-material/Add";
 import { useSection } from "../hooks";
-import { useAppStore } from "@/features/web/hooks";
+import { AddItemButton } from "../../AddItemButton";
 
 export const Section = React.memo(function Memo() {
   const { memoizedSectionWidth } = useSection();
-  const { setSidebarOpen } = useAppStore();
 
   const sectionWrapperRef = React.useRef<HTMLDivElement>(null);
 
@@ -37,9 +34,7 @@ export const Section = React.memo(function Memo() {
         <SectionWrapper />
       </Stack>
       <Stack alignItems="flex-end" sx={{ width: memoizedSectionWidth }}>
-        <IconButton onClick={() => setSidebarOpen(true)}>
-          <Add color="primary" />
-        </IconButton>
+        <AddItemButton />
       </Stack>
     </Stack>
   );
