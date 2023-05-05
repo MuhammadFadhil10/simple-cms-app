@@ -1,6 +1,11 @@
 import * as React from "react";
 
-import { MainHeader, MainPage, Sidebar } from "@/features/web";
+import {
+  FloatingAddItemButton,
+  MainHeader,
+  MainPage,
+  Sidebar,
+} from "@/features/web";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useRouter } from "next/router";
@@ -21,6 +26,7 @@ export const WebEditor = React.memo(function WebEditor() {
       <DndProvider backend={HTML5Backend}>
         <Sidebar />
         <MainPage />
+        <FloatingAddItemButton />
       </DndProvider>
     </>
   );

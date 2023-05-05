@@ -30,11 +30,10 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
   const boxRef = React.useRef<HTMLDivElement>(null);
   const moveableRef = React.useRef<Moveable>(null);
   const selectoRef = React.useRef<Selecto>(null);
-  const nullTargetRef = React.useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop(
     () => ({
-      accept: acceptedItems.map((item) => item.type),
+      accept: acceptedItems,
       drop(_item: string, monitor) {
         const type = monitor.getItemType();
         handleCreateMoveable(type as ItemTypes, localStorage?.webId as string);
@@ -48,12 +47,6 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
     }),
     []
   );
-
-  // React.useEffect(() => {
-  //   if (targets.length > 0) {
-  //     if (document) document.addEventListener("click", () => setTargets([]));
-  //   }
-  // }, [targets.length]);
 
   return (
     <Stack
@@ -69,7 +62,6 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
     >
       {boxRef && (
         <>
-          <div ref={nullTargetRef} style={{ display: "none" }}></div>
           <Moveable
             ref={moveableRef}
             draggable={true}
@@ -136,7 +128,6 @@ export const SectionWrapper = React.memo(function SectionWrapper() {
               e.target.style.transform = e.drag.transform;
             }}
           ></Moveable>
-          {/* )} */}
 
           <Selecto
             ref={selectoRef}

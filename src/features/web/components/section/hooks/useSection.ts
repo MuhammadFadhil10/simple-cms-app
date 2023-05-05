@@ -1,5 +1,5 @@
 import * as React from "react";
-import { items, useMain } from "@/features/web";
+import { ItemTypes, useMain } from "@/features/web";
 import { GlobalContentSizing } from "@/features/types";
 
 export const useSection = () => {
@@ -25,7 +25,7 @@ export const useSection = () => {
     }
   }, [memoizedContentSizing]);
 
-  const acceptedItems = items;
+  const acceptedItems: ItemTypes[] = ["button", "image"];
 
   return { memoizedSectionWidth, acceptedItems };
 };

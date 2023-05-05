@@ -28,10 +28,10 @@ export const MainPage = React.memo(function MainPage() {
     <Stack
       sx={{
         width: "100vw",
-        minHeight: `${100}vh`,
+        height: "100vh",
         position: "absolute",
         ...memoizedPosition,
-        overflowY: "auto",
+        // overflowY: "auto",
         boxShadow: 7,
         // transform: "scale(0.8)",
         backgroundColor: memoizedCurrentTheme?.colors.pageColor ?? "white",
