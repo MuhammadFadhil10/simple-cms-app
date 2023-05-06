@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import { useWeb, Form } from "@/features";
-import { CreateWebModal } from "@/features/web";
+import { CreateWebModal, usePage } from "@/features/web";
 import { useRouter } from "next/router";
 
 export const CreateWeb = React.memo(function CreateWeb() {
@@ -17,6 +17,8 @@ export const CreateWeb = React.memo(function CreateWeb() {
     createWebFields,
     handleCreateWeb,
   } = useWeb();
+
+  const { pages } = usePage();
 
   const [webList, setWebList] = React.useState([]);
 
@@ -44,7 +46,15 @@ export const CreateWeb = React.memo(function CreateWeb() {
         {webList?.map((web: any) => (
           <Typography
             key={web.id}
-            onClick={() => router.push(`/web/dashboard/edit/${web.id}`)}
+            onClick={() => {
+              const webPages = pages.filter(
+                (page) => page.webId === page.webId
+              );
+
+              router.push(
+                `/web/dashboard/edit/${web.id}/page/${webPages[0].id}`
+              );
+            }}
             sx={{ cursor: "pointer" }}
           >
             {web.webName}

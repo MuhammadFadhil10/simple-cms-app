@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Field, GlobalContentSizing, Web } from "../types";
-import { webThemes } from "../web";
+import { usePage, webThemes } from "../web";
 import { useRouter } from "next/router";
 
 export const useWeb = () => {
@@ -10,6 +10,7 @@ export const useWeb = () => {
 
   const [openCreateWebModal, setOpenCreateModal] = React.useState(false);
   const [webList, setWebList] = React.useState<Web[]>([]);
+  const { createPage } = usePage();
 
   // memo
   const createWebFields: Field[] = React.useMemo(() => {
@@ -66,11 +67,15 @@ export const useWeb = () => {
       let payload = data;
       payload.id = (Date.now() * Math.random()).toString();
 
+      const createdPage = createPage("Main Page", payload.id);
+
       const userWeb = localStorage.webs;
 
       if (!userWeb) {
         localStorage.setItem("webs", JSON.stringify([payload]));
-        return router.push(`/web/dashboard/edit/${payload.id}`);
+        return router.push(
+          `/web/dashboard/edit/${payload.id}/page/${createdPage.id}`
+        );
       }
 
       let parsedUserWeb = JSON.parse(userWeb);
@@ -78,10 +83,8 @@ export const useWeb = () => {
       parsedUserWeb.push(payload);
 
       localStorage.setItem("webs", JSON.stringify(parsedUserWeb));
-
-      router.push(`/web/dashboard/edit/${payload.id}`);
     },
-    [router]
+    [createPage, router]
   );
 
   React.useEffect(() => {

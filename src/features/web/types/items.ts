@@ -18,6 +18,7 @@ export type ItemPropertiesTypes = SharedItemProperties | ButtonProperties;
 export interface Item {
   id: string;
   webId: string;
+  pageId: string;
   name: string;
   type: ItemTypes;
   properties: ItemPropertiesTypes;

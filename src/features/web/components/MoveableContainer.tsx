@@ -24,7 +24,11 @@ export const MoveableContainer = React.forwardRef(function MoveableContainer(
     >
       {/* items */}
       {currentMoveables
-        .filter((item) => item.webId === (localStorage.webId as string))
+        .filter(
+          (item) =>
+            item.webId === (localStorage.webId as string) &&
+            item.pageId === (localStorage.pageId as string)
+        )
         .map((item) => (
           <>
             <MoveableItemWrapper

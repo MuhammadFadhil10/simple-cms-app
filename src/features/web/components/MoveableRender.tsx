@@ -30,6 +30,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
                 ? targets
                 : (ref as React.RefObject<HTMLDivElement>).current
             }
+            useAccuratePosition={true}
             zoom={targets.length > 0 ? 1 : 0}
             origin={false}
             keepRatio={false}
@@ -123,7 +124,6 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
               setActiveId(e.added[0].dataset.id as string);
             }}
             onSelectEnd={(e) => {
-              console.log("e: ", e);
               if (e.selected.length === 0) return;
 
               const moveable = moveableRef.current!;

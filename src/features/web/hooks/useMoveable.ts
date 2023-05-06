@@ -17,9 +17,12 @@ export const useMoveable = () => {
   const handleCreateMoveable = React.useCallback(
     (type: ItemTypes, webId: string) => {
       try {
+        if (!localStorage?.pageId) return;
+
         const moveable: Item = {
           id: (Date.now() * Math.random()).toString(),
           webId: webId as string,
+          pageId: localStorage.pageId as string,
           name: type,
           type,
           properties: handleGetDefaultProperties(type) as ItemPropertiesTypes,
