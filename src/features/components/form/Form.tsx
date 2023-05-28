@@ -1,8 +1,10 @@
 import * as React from "react";
-
 import type { Field } from "@/features";
 import { useForm, Controller } from "react-hook-form";
+import Alert from "@mui/material/Alert";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import CircularProgress from "@mui/material/CircularProgress";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,24 +15,42 @@ interface Props {
   fields: Field[];
   // eslint-disable-next-line no-unused-vars
   onSubmit: (data: unknown) => void;
+  submitErrorMessage?: string;
+  loading?: boolean;
   childrenInput?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Form = React.memo(function Form({
   fields,
   onSubmit,
+  submitErrorMessage,
+  loading,
   childrenInput,
+  children,
 }: Props) {
-  const { handleSubmit, control } = useForm();
+  const {
+    handleSubmit,
+    control,
+    // formState: { errors },
+  } = useForm();
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      style={{ display: "flex", flexDirection: "column", width: "100%" }}
+    >
+      {!!submitErrorMessage?.length && (
+        <Alert severity="error" sx={{ marginBottom: 2 }}>
+          {submitErrorMessage}
+        </Alert>
+      )}
       {fields.map((fieldInput, index) => (
         <>
           {fieldInput.type === "select" ? (
             <Controller
+              key={index}
               render={({ field }) => (
-                // <Box sx={{ width: "100%", marginBottom: 3 }}>
                 <>
                   <FormControl sx={{ width: "100%" }}>
                     <InputLabel id={fieldInput.name}>
@@ -51,7 +71,6 @@ export const Form = React.memo(function Form({
                     </Select>
                   </FormControl>
                 </>
-                // </Box>
               )}
               control={control}
               name={fieldInput.name}
@@ -60,14 +79,22 @@ export const Form = React.memo(function Form({
           ) : (
             <Controller
               key={index}
+              // rules={{ maxLength: { value: 3, message: "max 3" } }}
               render={({ field }) => (
-                <TextField
-                  {...field}
-                  size="small"
-                  type={fieldInput.type}
-                  sx={{ width: "100%", marginBottom: 3 }}
-                  label={fieldInput.label}
-                />
+                <>
+                  {/* {errors[fieldInput.name] && (
+                    <p style={{ color: "red" }}>
+                      {errors[fieldInput.name]?.message as string}
+                    </p>
+                  )} */}
+                  <TextField
+                    {...field}
+                    size="small"
+                    type={fieldInput.type}
+                    sx={{ width: "100%", marginBottom: 3 }}
+                    label={fieldInput.label}
+                  />
+                </>
               )}
               control={control}
               name={fieldInput.name}
@@ -75,37 +102,20 @@ export const Form = React.memo(function Form({
           )}
         </>
       ))}
-      {/* <Controller
-        render={({ field }) => (
-          // <Box sx={{ width: "100%", marginBottom: 3 }}>
-          <>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="select-theme">Theme</InputLabel>
-              <Select
-                {...field}
-                labelId="select-theme"
-                label="Theme"
-                size="small"
-                sx={{ width: "100%", marginBottom: 3 }}
-              >
-                {webThemes.map((theme) => (
-                  <MenuItem key={theme.id} value={theme.id}>
-                    {theme.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </>
-          // </Box>
-        )}
-        control={control}
-        name="theme"
-        defaultValue="light"
-      /> */}
       {childrenInput}
-      <Button disableRipple type="submit" variant="contained">
-        Submit
+      <Button
+        disableRipple
+        type="submit"
+        variant="contained"
+        sx={{ marginBottom: 2 }}
+      >
+        {loading ? (
+          <CircularProgress size={25} sx={{ color: "white" }} />
+        ) : (
+          "Submit"
+        )}
       </Button>
+      {children && <Box sx={{ alignSelf: "center" }}>{children}</Box>}
     </form>
   );
 });

@@ -1,54 +1,55 @@
 {
-	"name": "simple-cms",
-	"version": "0.1.0",
-	"private": true,
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"prepare": "husky install",
-		"precommit": "lint-staged"
-	},
-	"dependencies": {
-		"@emotion/react": "^11.10.8",
-		"@emotion/styled": "^11.10.8",
-		"@mui/icons-material": "^5.11.16",
-		"@mui/material": "^5.12.2",
-		"@reduxjs/toolkit": "^1.9.5",
-		"@tanstack/react-query": "^4.29.5",
-		"@types/node": "18.16.3",
-		"@types/react": "18.2.0",
-		"@types/react-dom": "18.2.1",
-		"axios": "^1.4.0",
-		"eslint": "8.39.0",
-		"eslint-config-next": "13.3.1",
-		"moveable": "^0.47.2",
-		"next": "13.3.1",
-		"react": "18.2.0",
-		"react-dnd": "^16.0.1",
-		"react-dnd-html5-backend": "^16.0.1",
-		"react-dom": "18.2.0",
-		"react-hook-form": "^7.43.9",
-		"react-redux": "^8.0.5",
-		"react-selecto": "^1.22.3",
-		"selecto": "^1.22.3",
-		"typescript": "5.0.4"
-	},
-	"devDependencies": {
-		"@commitlint/cli": "^17.6.1",
-		"@commitlint/config-conventional": "^17.6.1",
-		"eslint-config-prettier": "^8.8.0",
-		"husky": "^8.0.3",
-		"lint-staged": "^13.2.2",
-		"prettier": "^2.8.8"
-	},
-	"lint-staged": {
-		"**/*.{js,ts,tsx}": [
-			"eslint --fix"
-		],
-		"*.{html,js, ts, tsx}": [
-			"prettier --write"
-		]
-	}
+  "name": "simple-cms",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.10.8",
+    "@emotion/styled": "^11.10.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tanstack/react-query": "^4.29.5",
+    "@types/node": "18.16.3",
+    "@types/react": "18.2.0",
+    "@types/react-dom": "18.2.1",
+    "axios": "^1.4.0",
+    "eslint": "8.39.0",
+    "eslint-config-next": "13.3.1",
+    "moveable": "^0.47.2",
+    "next": "13.3.1",
+    "react": "18.2.0",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "18.2.0",
+    "react-google-login": "^5.2.2",
+    "react-hook-form": "^7.43.9",
+    "react-redux": "^8.0.5",
+    "react-selecto": "^1.22.3",
+    "selecto": "^1.22.3",
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "eslint-config-prettier": "^8.8.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8"
+  },
+  "lint-staged": {
+    "**/*.{js,ts,tsx}": [
+      "eslint --fix"
+    ],
+    "*.{html,js, ts, tsx}": [
+      "prettier --write"
+    ]
+  }
 }
