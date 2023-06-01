@@ -17,10 +17,6 @@ export const CreateWeb = React.memo(function CreateWeb() {
     handleCreateWeb,
   } = useWeb();
 
-  // const { pages } = usePage();
-
-  console.log("webs: ", webs);
-
   return (
     <>
       <Stack
