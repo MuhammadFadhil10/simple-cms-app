@@ -4,11 +4,10 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import { useWeb, Form } from "@/features";
-import { CreateWebModal, usePage } from "@/features/web";
-import { useRouter } from "next/router";
+import { CreateWebModal, useGetWebs } from "@/features/web";
 
 export const CreateWeb = React.memo(function CreateWeb() {
-  const router = useRouter();
+  const { data: webs } = useGetWebs();
 
   const {
     setOpenCreateModal,
@@ -18,15 +17,9 @@ export const CreateWeb = React.memo(function CreateWeb() {
     handleCreateWeb,
   } = useWeb();
 
-  const { pages } = usePage();
+  // const { pages } = usePage();
 
-  const [webList, setWebList] = React.useState([]);
-
-  React.useEffect(() => {
-    if (localStorage.webs) {
-      setWebList(JSON.parse(localStorage.webs));
-    }
-  }, []);
+  console.log("webs: ", webs);
 
   return (
     <>
@@ -36,28 +29,37 @@ export const CreateWeb = React.memo(function CreateWeb() {
         gap={3}
         sx={{ height: "100vh" }}
       >
-        <Typography fontSize={30} color="primary">
-          Create your web
+        {webs?.length === 0 && (
+          <>
+            <Typography fontSize={30} color="primary">
+              Create your first web
+            </Typography>
+            <Button
+              variant="contained"
+              onClick={() => setOpenCreateModal(true)}
+            >
+              Create
+            </Button>
+          </>
+        )}
+        <Typography variant="h1" fontSize={32}>
+          Your webs
         </Typography>
-        <Button variant="contained" onClick={() => setOpenCreateModal(true)}>
-          Create
-        </Button>
-        <Typography>Web List</Typography>
-        {webList?.map((web: any) => (
+        {webs?.map((web: any) => (
           <Typography
             key={web.id}
-            onClick={() => {
-              const webPages = pages.filter(
-                (page) => page.webId === page.webId
-              );
+            // onClick={() => {
+            //   const webPages = pages.filter(
+            //     (page) => page.webId === page.webId
+            //   );
 
-              router.push(
-                `/web/dashboard/edit/${web.id}/page/${webPages[0].id}`
-              );
-            }}
+            //   router.push(
+            //     `/web/dashboard/edit/${web.id}/page/${webPages[0].id}`
+            //   );
+            // }}
             sx={{ cursor: "pointer" }}
           >
-            {web.webName}
+            {web.name}
           </Typography>
         ))}
       </Stack>

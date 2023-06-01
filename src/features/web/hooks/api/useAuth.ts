@@ -1,6 +1,6 @@
 import * as React from "react";
 // import { useQuery } from "@tanstack/react-query";
-import { User } from "@/api";
+import { User, setApiToken } from "@/api";
 import { useRouter } from "next/router";
 
 export const useAuth = () => {
@@ -16,8 +16,9 @@ export const useAuth = () => {
       try {
         setSigninLoading(true);
 
-        await User.signin(body);
+        const response = await User.signin(body);
 
+        setApiToken(response.data.data?.token);
         setSigninLoading(false);
         setSigninError("");
 
