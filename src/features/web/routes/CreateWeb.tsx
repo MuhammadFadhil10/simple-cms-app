@@ -4,8 +4,8 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import { useWeb, Form, Web } from "@/features";
-import { CreateWebModal, useGetWebs, WebCard } from "@/features/web";
+import { Form, Web } from "@/features";
+import { CreateWebModal, useGetWebs, useWeb, WebCard } from "@/features/web";
 
 export const CreateWeb = React.memo(function CreateWeb() {
   const { data: webs } = useGetWebs();
@@ -20,7 +20,7 @@ export const CreateWeb = React.memo(function CreateWeb() {
 
   return (
     <>
-      <Stack sx={{ p: 2 }}>
+      <Stack sx={{ p: 2, width: "100%" }}>
         {webs?.length === 0 && (
           <>
             <Typography fontSize={30} color="primary">
@@ -49,7 +49,11 @@ export const CreateWeb = React.memo(function CreateWeb() {
                 Add web
               </Button>
             </Box>
-            <Stack direction="row" gap={2}>
+            <Stack
+              direction="row"
+              gap={2}
+              sx={{ flexWrap: "wrap", width: "100%]" }}
+            >
               {webs?.map((web: Web) => (
                 <WebCard key={web._id} web={web} />
               ))}
@@ -63,7 +67,18 @@ export const CreateWeb = React.memo(function CreateWeb() {
         onClose={handleCloseCreateModal}
         title="Create Web"
         contentChildren={
-          <Form fields={createWebFields} onSubmit={handleCreateWeb} />
+          <Form
+            fields={createWebFields}
+            onSubmit={async (data) => {
+              await handleCreateWeb.mutateAsync(data);
+              setOpenCreateModal(false);
+            }}
+            loading={handleCreateWeb.isLoading}
+            submitErrorMessage={
+              (handleCreateWeb.error as any)?.message ??
+              (handleCreateWeb.error as string)
+            }
+          />
         }
       />
     </>

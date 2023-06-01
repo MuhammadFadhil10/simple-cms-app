@@ -5,14 +5,11 @@ export class Webs {
     const { data } = await Api.get("/webs");
 
     return data.data;
-    // try {
-    //   console.log("asdasd: ", Api.defaults.headers.common.Authorization);
-    //   const { data } = await Api.get("/webs");
+  }
 
-    //   return data;
-    // } catch (error) {
-    //   console.log("Error get webs: ", error);
-    //   return null;
-    // }
+  static async createWeb(body: unknown) {
+    const { data } = await Api.post("/webs", body);
+
+    return data.data;
   }
 }

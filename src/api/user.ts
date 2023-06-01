@@ -23,7 +23,6 @@ export class User {
 
   static async refreshtoken(token: string) {
     const response = await Api.get(`/user/refresh-token/${token}`);
-    console.log("response refresh token: ", response);
     return response;
   }
 }

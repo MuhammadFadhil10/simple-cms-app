@@ -14,7 +14,7 @@ import Select from "@mui/material/Select";
 interface Props {
   fields: Field[];
   // eslint-disable-next-line no-unused-vars
-  onSubmit: (data: unknown) => void;
+  onSubmit: (data: any) => any | void | Promise<any>;
   submitErrorMessage?: string;
   loading?: boolean;
   childrenInput?: React.ReactNode;
@@ -29,11 +29,7 @@ export const Form = React.memo(function Form({
   childrenInput,
   children,
 }: Props) {
-  const {
-    handleSubmit,
-    control,
-    // formState: { errors },
-  } = useForm();
+  const { handleSubmit, control } = useForm();
 
   return (
     <form

@@ -4,3 +4,4 @@ export * from "./useDefaultMoveable";
 export * from "./useMain";
 export * from "./useMoveable";
 export * from "./usePage";
+export * from "./useWeb";
