@@ -1,4 +1,4 @@
-import { WebTheme } from "./theme";
+// import { WebTheme } from "./theme";
 
 /* 
  Global type for content size
@@ -7,8 +7,8 @@ import { WebTheme } from "./theme";
 export type GlobalContentSizing = "full" | "semi-full" | "center";
 
 export interface Web {
-  id: string;
+  _id: string;
   name: string;
-  contentSizing: GlobalContentSizing;
-  theme: WebTheme;
+  userId: string;
+  sharedUserId: string[];
 }

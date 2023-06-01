@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Field, GlobalContentSizing, Web } from "../types";
-import { usePage, webThemes } from "../web";
+import { Field, Web } from "../types";
+import { usePage } from "../web";
 import { useRouter } from "next/router";
 
 export const useWeb = () => {
@@ -20,41 +20,41 @@ export const useWeb = () => {
         type: "text",
         label: "Web Name",
       },
-      {
-        name: "contentSizing",
-        type: "select",
-        label: "Content Sizing",
-        options: (["full", "semi-full", "center"] as GlobalContentSizing[]).map(
-          (size) => {
-            return {
-              id: size,
-              value: size,
-              optionLabel: size,
-            };
-          }
-        ),
-        defaultValue: "semi-full" as GlobalContentSizing,
-      },
-      {
-        name: "themeId",
-        type: "select",
-        label: "theme",
-        options: webThemes.map((theme) => {
-          return {
-            id: theme.id,
-            value: theme.id,
-            optionLabel: theme.name,
-          };
-        }),
-        defaultValue: webThemes[0].id,
-      },
+      // {
+      //   name: "contentSizing",
+      //   type: "select",
+      //   label: "Content Sizing",
+      //   options: (["full", "semi-full", "center"] as GlobalContentSizing[]).map(
+      //     (size) => {
+      //       return {
+      //         id: size,
+      //         value: size,
+      //         optionLabel: size,
+      //       };
+      //     }
+      //   ),
+      //   defaultValue: "semi-full" as GlobalContentSizing,
+      // },
+      // {
+      //   name: "themeId",
+      //   type: "select",
+      //   label: "theme",
+      //   options: webThemes.map((theme) => {
+      //     return {
+      //       id: theme.id,
+      //       value: theme.id,
+      //       optionLabel: theme.name,
+      //     };
+      //   }),
+      //   defaultValue: webThemes[0].id,
+      // },
     ] as Field[];
   }, []);
 
   const memoizedCurrentWeb: Web | undefined = React.useMemo(() => {
     if (!webList) return;
 
-    return webList.find((web) => web.id === webId);
+    return webList.find((web) => web._id === webId);
   }, [webId, webList]);
 
   // function

@@ -1,10 +1,11 @@
 import * as React from "react";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
-import { useWeb, Form } from "@/features";
-import { CreateWebModal, useGetWebs } from "@/features/web";
+import { useWeb, Form, Web } from "@/features";
+import { CreateWebModal, useGetWebs, WebCard } from "@/features/web";
 
 export const CreateWeb = React.memo(function CreateWeb() {
   const { data: webs } = useGetWebs();
@@ -19,12 +20,7 @@ export const CreateWeb = React.memo(function CreateWeb() {
 
   return (
     <>
-      <Stack
-        justifyContent="center"
-        alignItems="center"
-        gap={3}
-        sx={{ height: "100vh" }}
-      >
+      <Stack sx={{ p: 2 }}>
         {webs?.length === 0 && (
           <>
             <Typography fontSize={30} color="primary">
@@ -38,27 +34,30 @@ export const CreateWeb = React.memo(function CreateWeb() {
             </Button>
           </>
         )}
-        <Typography variant="h1" fontSize={32}>
-          Your webs
-        </Typography>
-        {webs?.map((web: any) => (
-          <Typography
-            key={web.id}
-            // onClick={() => {
-            //   const webPages = pages.filter(
-            //     (page) => page.webId === page.webId
-            //   );
 
-            //   router.push(
-            //     `/web/dashboard/edit/${web.id}/page/${webPages[0].id}`
-            //   );
-            // }}
-            sx={{ cursor: "pointer" }}
-          >
-            {web.name}
-          </Typography>
-        ))}
+        {webs?.length > 0 && (
+          <Stack gap={2}>
+            <Box display="flex" gap={3}>
+              <Typography variant="h1" fontSize={32}>
+                Your webs
+              </Typography>
+              <Button
+                size="small"
+                variant="contained"
+                onClick={() => setOpenCreateModal(true)}
+              >
+                Add web
+              </Button>
+            </Box>
+            <Stack direction="row" gap={2}>
+              {webs?.map((web: Web) => (
+                <WebCard key={web._id} web={web} />
+              ))}
+            </Stack>
+          </Stack>
+        )}
       </Stack>
+
       <CreateWebModal
         open={openCreateWebModal}
         onClose={handleCloseCreateModal}

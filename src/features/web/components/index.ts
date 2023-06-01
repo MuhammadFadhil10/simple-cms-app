@@ -6,3 +6,4 @@ export * from "./main";
 export * from "./MoveableRender";
 export * from "./section";
 export * from "./sidebar";
+export * from "./WebCard";
