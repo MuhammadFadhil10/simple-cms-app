@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -7,16 +6,20 @@ import Add from "@mui/icons-material/Add";
 import { usePage } from "@/features/web";
 import { usePageSection } from "../../hooks/usePageSection";
 import { useRouter } from "next/router";
+import { CreatePageModal } from "./CreatePageModal";
+import { PageCard } from "./PageCard";
 
 export const PagesSection = React.memo(function PagesSection() {
   const router = useRouter();
-  const { pages, pagesLoading } = usePage();
+  const { pages, pagesLoading, handleCreatePage } = usePage();
 
-  const { setOpen } = usePageSection();
+  const { mutateAsync, isLoading, error } = handleCreatePage;
 
-  // const handleClose = React.useCallback(() => {
-  //   setOpen(false);
-  // }, [setOpen]);
+  const { open, setOpen, createPageFields } = usePageSection();
+
+  const handleClose = React.useCallback(() => {
+    setOpen(false);
+  }, [setOpen]);
 
   return (
     <>
@@ -39,39 +42,23 @@ export const PagesSection = React.memo(function PagesSection() {
           )}
 
           {pages.map((page) => (
-            <Box
-              key={page._id}
-              sx={{
-                cursor: "pointer",
-                width: "100%",
-                padding: 1,
-                boxSizing: "border-box",
-                backgroundColor:
-                  page._id === router.query.pageId ? "#dfdfdf" : "white",
-                transition: "300ms",
-                "&:hover": {
-                  backgroundColor:
-                    page._id === router.query.pageId ? "#cfcfcf" : "#efefef",
-                },
-              }}
-              onClick={() => {
-                router.push(
-                  `/web/dashboard/edit/${router.query.webId}/page/${page._id}`
-                );
-              }}
-            >
-              <Typography>{page.name}</Typography>
-            </Box>
+            <PageCard key={page._id} page={page} />
           ))}
         </Stack>
       </Stack>
 
-      {/* <CreatePageModal
+      <CreatePageModal
         open={open}
         handleClose={handleClose}
+        defaultValues={{ webId: router.query.webId, isMain: false }}
         fields={createPageFields}
-        onCreate={handleCreatePage}
-      /> */}
+        loading={isLoading}
+        onCreate={async (data) => {
+          await mutateAsync(data);
+          setOpen(false);
+        }}
+        submitErrorMessage={(error as any)?.message ?? (error as string)}
+      />
     </>
   );
 });

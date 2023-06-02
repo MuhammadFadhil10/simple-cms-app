@@ -3,6 +3,7 @@ import { Page } from "../types";
 import { useRouter } from "next/router";
 import { useGetPages } from "./api/useGetPages";
 import { Pages } from "@/api";
+import { useGlobalMutation } from "./api";
 
 export const usePage = () => {
   const { pageId } = useRouter().query;
@@ -14,8 +15,6 @@ export const usePage = () => {
 
     return rawPages;
   }, [rawPages]);
-
-  console.log("pages: ", pages);
 
   const currentPage = React.useMemo(() => {
     const page = pages?.find((page: any) => page._id === (pageId as string));
@@ -29,5 +28,15 @@ export const usePage = () => {
     return pages as Page[];
   }, []);
 
-  return { pages, currentPage, handleGetWebPages, pagesLoading };
+  const handleCreatePage = useGlobalMutation("CREATE_PAGE", ["pages"]);
+  const handleDeletePage = useGlobalMutation("DELETE_PAGE", ["pages"]);
+
+  return {
+    pages,
+    currentPage,
+    handleGetWebPages,
+    pagesLoading,
+    handleCreatePage,
+    handleDeletePage,
+  };
 };

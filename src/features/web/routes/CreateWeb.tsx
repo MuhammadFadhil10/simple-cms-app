@@ -20,9 +20,20 @@ export const CreateWeb = React.memo(function CreateWeb() {
 
   return (
     <>
-      <Stack sx={{ p: 2, width: "100%" }}>
+      <Stack
+        sx={{
+          p: 2,
+          width: "100vw",
+          height: "100vh",
+          boxSizing: "border-box",
+        }}
+      >
         {webs?.length === 0 && (
-          <>
+          <Stack
+            alignItems="center"
+            justifyContent="center"
+            sx={{ width: "100%", height: "100%" }}
+          >
             <Typography fontSize={30} color="primary">
               Create your first web
             </Typography>
@@ -32,7 +43,7 @@ export const CreateWeb = React.memo(function CreateWeb() {
             >
               Create
             </Button>
-          </>
+          </Stack>
         )}
 
         {webs?.length > 0 && (

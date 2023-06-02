@@ -2,7 +2,7 @@ import * as React from "react";
 import { MutationEventType } from "@/features/web";
 import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { Webs } from "@/api";
+import { Pages, Webs } from "@/api";
 
 export const useGlobalMutation = (
   event: MutationEventType,
@@ -13,8 +13,18 @@ export const useGlobalMutation = (
   const mutationFn = React.useCallback(
     async (body?: unknown) => {
       switch (event) {
+        // web
         case "CREATE_WEB": {
           return await Webs.createWeb(body);
+        }
+
+        // page
+        case "CREATE_PAGE": {
+          return await Pages.createPages(body);
+        }
+
+        case "DELETE_PAGE": {
+          return await Pages.deletePage(body as string);
         }
       }
     },

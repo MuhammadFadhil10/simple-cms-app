@@ -13,6 +13,7 @@ import Select from "@mui/material/Select";
 
 interface Props {
   fields: Field[];
+  defaultValues?: unknown;
   // eslint-disable-next-line no-unused-vars
   onSubmit: (data: any) => any | void | Promise<any>;
   submitErrorMessage?: string;
@@ -23,13 +24,16 @@ interface Props {
 
 export const Form = React.memo(function Form({
   fields,
+  defaultValues,
   onSubmit,
   submitErrorMessage,
   loading,
   childrenInput,
   children,
 }: Props) {
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit, control } = useForm({
+    defaultValues: defaultValues ?? {},
+  });
 
   return (
     <form
@@ -69,8 +73,8 @@ export const Form = React.memo(function Form({
                 </>
               )}
               control={control}
-              name={fieldInput.name}
-              defaultValue={fieldInput.defaultValue}
+              name={fieldInput.name as never}
+              defaultValue={fieldInput.defaultValue as any}
             />
           ) : (
             <Controller
@@ -93,12 +97,15 @@ export const Form = React.memo(function Form({
                 </>
               )}
               control={control}
-              name={fieldInput.name}
+              name={fieldInput.name as never}
+              defaultValue={fieldInput.defaultValue as any}
             />
           )}
         </>
       ))}
+
       {childrenInput}
+
       <Button
         disableRipple
         type="submit"
