@@ -41,13 +41,14 @@ export const PageCard = React.memo(function PageCard({ page }: Props) {
         );
       }}
     >
-      <Box sx={{ display: "flex", gap: 1 }}>
+      <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
         {page.isMain && <FirstPageIcon />}
-        <Typography>{page.name}</Typography>
+        <Typography fontSize={13}>{page.name}</Typography>
       </Box>
 
       <Box sx={{ display: "flex", alignItems: "center" }}>
         {deletePageLoading && <CircularProgress size={16} color="error" />}
+
         {!deletePageLoading && !page.isMain && (
           <DeleteIcon
             fontSize="small"
@@ -59,6 +60,7 @@ export const PageCard = React.memo(function PageCard({ page }: Props) {
             }}
           />
         )}
+
         <MoreIcon
           fontSize="small"
           sx={{
