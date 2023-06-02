@@ -1,5 +1,9 @@
+import * as React from "react";
+
 export interface Page {
-  id: string;
-  webId: string;
+  _id: string;
   name: string;
+  isMain: boolean;
+  webId: string;
+  style: React.CSSProperties | unknown;
 }

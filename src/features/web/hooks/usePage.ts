@@ -1,37 +1,33 @@
 import * as React from "react";
 import { Page } from "../types";
 import { useRouter } from "next/router";
+import { useGetPages } from "./api/useGetPages";
+import { Pages } from "@/api";
 
 export const usePage = () => {
-  const router = useRouter();
+  const { pageId } = useRouter().query;
 
-  const [pages, setPages] = React.useState<Page[]>([]);
+  const { data: rawPages, isLoading: pagesLoading } = useGetPages();
 
-  const createPage = React.useCallback(
-    (pageName?: string, webId?: string): Page => {
-      const newPage: Page = {
-        id: (Date.now() * Math.random()).toString(),
-        name: pageName ?? `Page ${pages.length + 1}`,
-        webId: webId ?? localStorage?.webId ?? "",
-      };
+  const pages: Page[] = React.useMemo(() => {
+    if (!rawPages) return [];
 
-      const newPages = [...pages, newPage];
+    return rawPages;
+  }, [rawPages]);
 
-      localStorage.setItem("pages", JSON.stringify(newPages));
+  console.log("pages: ", pages);
 
-      router.push(`/web/dashboard/edit/${newPage.webId}/page/${newPage.id}`);
+  const currentPage = React.useMemo(() => {
+    const page = pages?.find((page: any) => page._id === (pageId as string));
 
-      return newPage;
-    },
-    [pages, router]
-  );
+    return page;
+  }, [pageId, pages]);
 
-  React.useEffect(() => {
-    if (localStorage?.pages) setPages(JSON.parse(localStorage.pages));
+  const handleGetWebPages = React.useCallback(async (webId: string) => {
+    const pages = await Pages.getPages(webId);
+
+    return pages as Page[];
   }, []);
 
-  return {
-    pages,
-    createPage,
-  };
+  return { pages, currentPage, handleGetWebPages, pagesLoading };
 };

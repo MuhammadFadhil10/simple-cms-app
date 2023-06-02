@@ -24,12 +24,6 @@ export const useMain = () => {
     return theme;
   }, [memoizedCurrentWeb]);
 
-  React.useEffect(() => {
-    if (localStorage.webs) {
-      setWebList(JSON.parse(localStorage.webs));
-    }
-  }, []);
-
   return {
     memoizedCurrentWeb,
     webList,

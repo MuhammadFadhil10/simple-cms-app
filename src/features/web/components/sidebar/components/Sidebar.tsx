@@ -1,19 +1,10 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-import { ItemsSection } from "./elements/ItemsSection";
+// import { ItemsSection } from "./elements/ItemsSection";
 import { useAppStore } from "@/features/web/hooks";
-import { Page } from "@/features/web";
 import { PagesSection } from "./elements/PagesSection";
 
-interface Props {
-  pages: Page[];
-  activePageId: string;
-}
-
-export const Sidebar = React.memo(function Sidebar({
-  pages,
-  activePageId,
-}: Props) {
+export const Sidebar = React.memo(function Sidebar() {
   const { sidebarOpen } = useAppStore();
 
   return (
@@ -31,8 +22,8 @@ export const Sidebar = React.memo(function Sidebar({
             zIndex: 999,
           }}
         >
-          <PagesSection pages={pages} activePageId={activePageId} />
-          <ItemsSection />
+          <PagesSection />
+          {/* <ItemsSection /> */}
         </Stack>
       )}
     </>
