@@ -52,7 +52,7 @@ export const InspectorHeader = React.memo(function InspectorHeader({
         padding: 1,
         boxSizing: "border-box",
         width: "100%",
-        haight: "50px",
+        minHeight: "50px",
         borderBottom: "1px solid #ccc",
       }}
     >
