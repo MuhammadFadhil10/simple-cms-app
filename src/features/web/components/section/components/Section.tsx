@@ -38,7 +38,6 @@ export const Section = React.memo(function Memo() {
         width: "100vw",
         minHeight: "100vh",
         alignSelf: "center",
-        // overflow: "hidden",
       }}
     >
       <div
@@ -47,7 +46,6 @@ export const Section = React.memo(function Memo() {
       >
         <MoveableRender ref={droppableContainerRef} />
       </div>
-      {/* <SectionWrapper /> */}
     </Stack>
   );
 });

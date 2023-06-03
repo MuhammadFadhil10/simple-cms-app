@@ -13,7 +13,6 @@ export const MainPage = React.memo(function MainPage() {
       sx={{
         width: "100vw",
         height: "100vh",
-        // overflow: "hidden",
         boxShadow: 7,
         backgroundColor: memoizedCurrentTheme?.colors.pageColor ?? "white",
       }}

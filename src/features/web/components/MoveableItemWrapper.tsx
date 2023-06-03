@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Item } from "../types";
-// import Moveable from "react-moveable";
-// import { useMoveable } from "../hooks";
 
 interface Props {
   item: Item;
@@ -11,13 +9,9 @@ interface Props {
 
 export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
   item,
-  // sectionRef,
   children,
 }: Props) {
-  // const { updateMoveableProps } = useMoveable();
-
   const targetRef = React.useRef<HTMLDivElement>(null);
-  // const moveableRef = React.useRef<Moveable>(null);
 
   const { height, width } = item?.properties.style ?? {
     height: "100px",

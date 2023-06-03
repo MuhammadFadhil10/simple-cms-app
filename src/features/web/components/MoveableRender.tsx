@@ -101,7 +101,6 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
 
               handleResizeMoveable(moveable, `${e.width}px`, `${e.height}px`);
             }}
-            // onBeforeRender={(e) => console.log("render: ", e)}
           />
 
           <Selecto
