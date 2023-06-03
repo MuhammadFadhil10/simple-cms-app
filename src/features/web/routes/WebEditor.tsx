@@ -2,6 +2,7 @@ import * as React from "react";
 
 import {
   FloatingAddItemButton,
+  Inspector,
   // MainHeader,
   MainPage,
   Sidebar,
@@ -17,6 +18,7 @@ export const WebEditor = React.memo(function WebEditor() {
       <DndProvider backend={HTML5Backend}>
         <Sidebar />
         <MainPage />
+        <Inspector />
         <FloatingAddItemButton />
       </DndProvider>
     </>

@@ -38,6 +38,9 @@ export const useGlobalMutation = (
             (body as any).payload as Partial<Item>
           );
         }
+        case "DELETE_ITEM": {
+          return Items.deleteItem(body as string);
+        }
       }
     },
     [event]

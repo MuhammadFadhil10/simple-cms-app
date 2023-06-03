@@ -40,13 +40,13 @@ export const useSection = () => {
 
   // func
   const handleDrop = React.useCallback(
-    async (item: ItemList, position: any, pageId: string) => {
+    async (name: string, item: ItemList, position: any, pageId: string) => {
       let itemPayload: Partial<Item>;
 
       switch (item.type) {
         case "button": {
           itemPayload = {
-            name: "Button",
+            name,
             type: item.type,
             position,
             pageId,

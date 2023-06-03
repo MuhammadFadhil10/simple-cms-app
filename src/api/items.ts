@@ -17,4 +17,8 @@ export class Items {
 
     return await Api.patch(`/items/${itemId}`, body);
   }
+
+  static async deleteItem(itemId: string) {
+    return await Api.delete(`/items/${itemId}`);
+  }
 }

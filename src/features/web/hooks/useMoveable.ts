@@ -15,6 +15,9 @@ export const useMoveable = () => {
   const { mutateAsync: updateItemMutation } = useGlobalMutation("UPDATE_ITEM", [
     "items",
   ]);
+  const { mutateAsync: deleteItemMutation } = useGlobalMutation("DELETE_ITEM", [
+    "items",
+  ]);
 
   const { data: rawMovables } = useQuery({
     queryKey: ["items"],
@@ -40,7 +43,7 @@ export const useMoveable = () => {
     [createItemMutation]
   );
 
-  const handleUpdateMoveable = React.useCallback(
+  const updateMoveable = React.useCallback(
     (itemId: string, body: Partial<Item>) => {
       return updateItemMutation({
         itemId,
@@ -52,7 +55,7 @@ export const useMoveable = () => {
 
   const handleResizeMoveable = React.useCallback(
     (item: Item, width: string, height: string) => {
-      handleUpdateMoveable(item._id, {
+      updateMoveable(item._id, {
         properties: {
           ...item.properties,
           style: {
@@ -63,12 +66,12 @@ export const useMoveable = () => {
         },
       });
     },
-    [handleUpdateMoveable]
+    [updateMoveable]
   );
 
   const updateMoveableTransform = React.useCallback(
     (item: Item, transform: string) => {
-      handleUpdateMoveable(item._id, {
+      updateMoveable(item._id, {
         properties: {
           ...item.properties,
           style: {
@@ -78,19 +81,26 @@ export const useMoveable = () => {
         },
       });
     },
-    [handleUpdateMoveable]
+    [updateMoveable]
   );
 
   const updateMoveableProps = React.useCallback(
     (item: Item, field: string, payload: unknown) => {
-      handleUpdateMoveable(item._id, {
+      updateMoveable(item._id, {
         properties: {
           ...item.properties,
           [field]: payload,
         },
       });
     },
-    [handleUpdateMoveable]
+    [updateMoveable]
+  );
+
+  const deleteMoveable = React.useCallback(
+    (itemId: string) => {
+      return deleteItemMutation(itemId);
+    },
+    [deleteItemMutation]
   );
 
   const handleGetSharedMoveableStyles = React.useCallback(
@@ -113,7 +123,8 @@ export const useMoveable = () => {
     handleResizeMoveable,
     updateMoveableProps,
     handleGetSharedMoveableStyles,
-    handleUpdateMoveable,
+    updateMoveable,
+    deleteMoveable,
     updateMoveableTransform,
     acceptedItems,
   };

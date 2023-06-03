@@ -126,7 +126,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             onSelect={(e) => {
               setTargets(e.selected);
 
-              if (!e.added[0]?.dataset) return;
+              if (!e.added[0]?.dataset) return setActiveId("");
 
               setActiveId(e.added[0].dataset.id as string);
             }}

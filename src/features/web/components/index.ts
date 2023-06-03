@@ -2,6 +2,7 @@ export * from "./auth";
 export * from "./AddItemButton";
 export * from "./CreateWebModal";
 export * from "./FloatingAddItemButton";
+export * from "./inspector";
 export * from "./main";
 export * from "./MoveableRender";
 export * from "./section";
