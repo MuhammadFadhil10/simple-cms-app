@@ -41,10 +41,19 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
               left: true,
               bottom: true,
               right: true,
+              center: true,
+              middle: true,
             }}
+            elementSnapDirections={{
+              top: true,
+              left: true,
+              bottom: true,
+              right: true,
+              center: true,
+              middle: true,
+            }}
+            elementGuidelines={[".container"]}
             snapThreshold={5}
-            verticalGuidelines={[50, 150, 250, 450, 550]}
-            horizontalGuidelines={[0, 100, 200, 400, 500]}
             throttleDrag={1}
             edgeDraggable={false}
             startDragRotate={0}
@@ -57,7 +66,6 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
               bottom: 0,
               position: "css",
             }}
-            snapContainer={(ref as React.RefObject<HTMLDivElement>).current}
             renderDirections={["se"]}
             onClickGroup={(e) => {
               selectoRef.current!.clickTarget(e.inputEvent, e.inputTarget);
@@ -103,7 +111,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             selectableTargets={[".items"]}
             hitRate={0}
             selectByClick={true}
-            selectFromInside={true}
+            selectFromInside={false}
             toggleContinueSelect={["shift"]}
             ratio={0}
             onDragStart={(e) => {

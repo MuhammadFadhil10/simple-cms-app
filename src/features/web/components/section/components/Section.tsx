@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 export const Section = React.memo(function Memo() {
   const { pageId } = useRouter().query;
-  const { acceptedItems, memoizedSectionWidth, handleDrop } = useSection();
+  const { acceptedItems, handleDrop } = useSection();
 
   const droppableContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -35,11 +35,10 @@ export const Section = React.memo(function Memo() {
       ref={drop}
       className="container"
       sx={{
-        width: memoizedSectionWidth,
+        width: "100vw",
         minHeight: "100vh",
-        borderLeft: "2px solid rgba(0,0,0,0.1)",
-        borderRight: "2px solid rgba(0,0,0,0.1)",
         alignSelf: "center",
+        // overflow: "hidden",
       }}
     >
       <div

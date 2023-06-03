@@ -32,7 +32,7 @@
     "react-google-login": "^5.2.2",
     "react-hook-form": "^7.43.9",
     "react-redux": "^8.0.5",
-    "react-selecto": "^1.22.3",
+    "react-selecto": "^1.22.5",
     "selecto": "^1.22.3",
     "typescript": "5.0.4"
   },
