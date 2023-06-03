@@ -34,6 +34,7 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
             style={{
               height,
               width,
+              position: "absolute",
               transform:
                 item.properties.style.transform ??
                 `translate(${item.position.x}px, ${item.position.y}px)`,

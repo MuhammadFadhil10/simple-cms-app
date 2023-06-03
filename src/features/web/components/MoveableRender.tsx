@@ -84,6 +84,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             onResize={(e) => {
               e.target.style.width = `${e.width}px`;
               e.target.style.height = `${e.height}px`;
+              e.target.style.transform = e.drag.transform;
               const moveable = memoizedMovables.find(
                 (item) => item._id === activeId
               );
@@ -91,7 +92,6 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
               if (!moveable) return;
 
               handleResizeMoveable(moveable, `${e.width}px`, `${e.height}px`);
-              // e.target.style.transform = e.drag.transform;
             }}
             // onBeforeRender={(e) => console.log("render: ", e)}
           />
