@@ -10,7 +10,8 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
   ref
 ) {
   const { activeId, setActiveId } = useAppStore();
-  const { currentMoveables, updateMoveable } = useMoveable();
+  const { memoizedMovables, updateMoveableTransform, handleResizeMoveable } =
+    useMoveable();
 
   const [targets, setTargets] = React.useState<Array<SVGElement | HTMLElement>>(
     []
@@ -67,22 +68,13 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             onDragEnd={(e) => {
               if (!e.isDrag) return;
 
-              const moveable = currentMoveables.find(
-                (item) => item.id === activeId
+              const moveable = memoizedMovables.find(
+                (item) => item._id === activeId
               );
 
               if (!moveable) return;
 
-              updateMoveable(activeId, {
-                ...moveable,
-                properties: {
-                  ...moveable.properties,
-                  style: {
-                    ...moveable.properties.style,
-                    transform: e.lastEvent?.transform ?? "",
-                  },
-                },
-              });
+              updateMoveableTransform(moveable, e.lastEvent?.transform);
             }}
             onDragGroup={(e) => {
               e.events.forEach((ev) => {
@@ -92,8 +84,16 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             onResize={(e) => {
               e.target.style.width = `${e.width}px`;
               e.target.style.height = `${e.height}px`;
-              e.target.style.transform = e.drag.transform;
+              const moveable = memoizedMovables.find(
+                (item) => item._id === activeId
+              );
+
+              if (!moveable) return;
+
+              handleResizeMoveable(moveable, `${e.width}px`, `${e.height}px`);
+              // e.target.style.transform = e.drag.transform;
             }}
+            // onBeforeRender={(e) => console.log("render: ", e)}
           />
 
           <Selecto

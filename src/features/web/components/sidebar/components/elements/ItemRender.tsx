@@ -1,11 +1,11 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Item } from "@/features/web";
+import { ItemList } from "@/features/web";
 import { useDrag, DragSourceMonitor } from "react-dnd";
 
 interface Props {
-  item: Item;
+  item: ItemList;
 }
 
 export const ItemRender = React.memo(function ItemRender({ item }: Props) {
@@ -22,7 +22,7 @@ export const ItemRender = React.memo(function ItemRender({ item }: Props) {
   );
 
   return (
-    <Box key={item.id}>
+    <Box display="flex" flexDirection="column" alignItems="center">
       <Box
         ref={drag}
         sx={{
@@ -37,7 +37,7 @@ export const ItemRender = React.memo(function ItemRender({ item }: Props) {
           },
         }}
       ></Box>
-      <Typography>{item.name}</Typography>
+      <Typography fontSize={13}>{item.label}</Typography>
     </Box>
   );
 });

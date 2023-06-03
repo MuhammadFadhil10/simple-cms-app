@@ -1,107 +1,96 @@
 import * as React from "react";
 
-import { Item, ItemPropertiesTypes, ItemTypes } from "../types";
-import { useDefaultMoveable } from "./useDefaultMoveable";
+import { Item, ItemTypes } from "../types";
+import { useGlobalMutation } from "./api";
+import { useQuery } from "@tanstack/react-query";
+import { Items } from "@/api/items";
+import { useRouter } from "next/router";
 
 export const useMoveable = () => {
-  const { handleGetDefaultProperties } = useDefaultMoveable();
+  const { pageId } = useRouter().query;
 
-  const [currentMoveables, setCurrentMoveables] = React.useState<Item[]>([]);
+  const { mutateAsync: createItemMutation } = useGlobalMutation("CREATE_ITEM", [
+    "items",
+  ]);
+  const { mutateAsync: updateItemMutation } = useGlobalMutation("UPDATE_ITEM", [
+    "items",
+  ]);
+
+  const { data: rawMovables } = useQuery({
+    queryKey: ["items"],
+    queryFn: () => Items.getItems(pageId as string),
+  });
+
+  const memoizedMovables: Item[] = React.useMemo(() => {
+    if (!rawMovables) return [];
+
+    return rawMovables as unknown as Item[];
+  }, [rawMovables]);
 
   // memos
   const acceptedItems: ItemTypes[] = React.useMemo(() => {
-    return ["button", "image"];
+    return ["button", "media"];
   }, []);
 
   // functions
   const handleCreateMoveable = React.useCallback(
-    (type: ItemTypes, webId: string) => {
-      try {
-        if (!localStorage?.pageId) return;
-
-        const moveable: Item = {
-          id: (Date.now() * Math.random()).toString(),
-          webId: webId as string,
-          pageId: localStorage.pageId as string,
-          name: type,
-          type,
-          properties: handleGetDefaultProperties(type) as ItemPropertiesTypes,
-        };
-
-        let oldMoveables = [];
-
-        if (localStorage.moveables) {
-          oldMoveables = JSON.parse(localStorage.moveables);
-        }
-
-        const newMoveables = [...oldMoveables, moveable];
-
-        localStorage.setItem("moveables", JSON.stringify(newMoveables));
-
-        setCurrentMoveables(newMoveables);
-      } catch (error) {
-        console.log("error create moveable: ", error);
-      }
+    (item: Partial<Item>) => {
+      return createItemMutation(item);
     },
-    [handleGetDefaultProperties]
+    [createItemMutation]
+  );
+
+  const handleUpdateMoveable = React.useCallback(
+    (itemId: string, body: Partial<Item>) => {
+      return updateItemMutation({
+        itemId,
+        payload: body,
+      });
+    },
+    [updateItemMutation]
+  );
+
+  const handleResizeMoveable = React.useCallback(
+    (item: Item, width: string, height: string) => {
+      handleUpdateMoveable(item._id, {
+        properties: {
+          ...item.properties,
+          style: {
+            ...item.properties.style,
+            width,
+            height,
+          },
+        },
+      });
+    },
+    [handleUpdateMoveable]
+  );
+
+  const updateMoveableTransform = React.useCallback(
+    (item: Item, transform: string) => {
+      handleUpdateMoveable(item._id, {
+        properties: {
+          ...item.properties,
+          style: {
+            ...item.properties.style,
+            transform,
+          },
+        },
+      });
+    },
+    [handleUpdateMoveable]
   );
 
   const updateMoveableProps = React.useCallback(
-    (itemId: string, field: string, payload: unknown) => {
-      const moveable = currentMoveables.find((item) => item.id === itemId);
-
-      if (!moveable) return;
-
-      let newMoveable: Item = {
-        ...moveable,
-        properties: { ...moveable.properties, [field]: payload },
-      };
-
-      const moveableIndex = currentMoveables.findIndex(
-        (item) => item.id === newMoveable.id
-      );
-
-      if (moveableIndex === -1) return;
-
-      currentMoveables.splice(moveableIndex, 1);
-
-      setCurrentMoveables([...currentMoveables, newMoveable]);
-
-      localStorage.setItem(
-        "moveables",
-        JSON.stringify([...currentMoveables, newMoveable])
-      );
+    (item: Item, field: string, payload: unknown) => {
+      handleUpdateMoveable(item._id, {
+        properties: {
+          ...item.properties,
+          [field]: payload,
+        },
+      });
     },
-    [currentMoveables]
-  );
-
-  const updateMoveable = React.useCallback(
-    (itemId: string, payload: Item) => {
-      const moveable = currentMoveables.find((item) => item.id === itemId);
-
-      if (!moveable) return;
-
-      let newMoveable: Item = {
-        ...moveable,
-        ...payload,
-      };
-
-      const moveableIndex = currentMoveables.findIndex(
-        (item) => item.id === newMoveable.id
-      );
-
-      if (moveableIndex === -1) return;
-
-      currentMoveables.splice(moveableIndex, 1);
-
-      setCurrentMoveables([...currentMoveables, newMoveable]);
-
-      localStorage.setItem(
-        "moveables",
-        JSON.stringify([...currentMoveables, newMoveable])
-      );
-    },
-    [currentMoveables]
+    [handleUpdateMoveable]
   );
 
   const handleGetSharedMoveableStyles = React.useCallback(
@@ -118,18 +107,14 @@ export const useMoveable = () => {
     []
   );
 
-  React.useEffect(() => {
-    if (localStorage.moveables) {
-      setCurrentMoveables(JSON.parse(localStorage.moveables));
-    }
-  }, []);
-
   return {
-    currentMoveables,
+    memoizedMovables,
     handleCreateMoveable,
+    handleResizeMoveable,
     updateMoveableProps,
     handleGetSharedMoveableStyles,
-    updateMoveable,
+    handleUpdateMoveable,
+    updateMoveableTransform,
     acceptedItems,
   };
 };

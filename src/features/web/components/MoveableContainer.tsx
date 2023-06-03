@@ -8,7 +8,7 @@ export const MoveableContainer = React.forwardRef(function MoveableContainer(
   props,
   ref
 ) {
-  const { currentMoveables } = useMoveable();
+  const { memoizedMovables } = useMoveable();
 
   return (
     <Box
@@ -17,31 +17,21 @@ export const MoveableContainer = React.forwardRef(function MoveableContainer(
       sx={{
         width: "100%",
         height: "80%",
-        // display: "flex",
-        // alignItems: "centee",
-        // justifyContent: "center",
       }}
     >
       {/* items */}
-      {currentMoveables
-        .filter(
-          (item) =>
-            item.webId === (localStorage.webId as string) &&
-            item.pageId === (localStorage.pageId as string)
-        )
-        .map((item) => (
-          <>
-            <MoveableItemWrapper
-              sectionRef={
-                (ref as React.RefObject<HTMLDivElement>)
-                  .current as HTMLDivElement
-              }
-              item={item}
-            >
-              {item.type === "button" && <ButtonItem item={item} />}
-            </MoveableItemWrapper>
-          </>
-        ))}
+      {memoizedMovables.map((item) => (
+        <>
+          <MoveableItemWrapper
+            sectionRef={
+              (ref as React.RefObject<HTMLDivElement>).current as HTMLDivElement
+            }
+            item={item}
+          >
+            {item.type === "button" && <ButtonItem item={item} />}
+          </MoveableItemWrapper>
+        </>
+      ))}
     </Box>
   );
 });

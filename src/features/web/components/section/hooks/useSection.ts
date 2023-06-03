@@ -1,9 +1,20 @@
 import * as React from "react";
-import { ItemTypes, useMain } from "@/features/web";
+import {
+  Item,
+  ItemList,
+  ItemTypes,
+  useDefaultMoveable,
+  useMain,
+  useMoveable,
+} from "@/features/web";
 import { GlobalContentSizing } from "@/features/types";
+// import { useRouter } from "next/router";
 
 export const useSection = () => {
+  // const router = useRouter();
   const { memoizedCurrentWeb } = useMain();
+  const { handleGetDefaultProperties } = useDefaultMoveable();
+  const { handleCreateMoveable } = useMoveable();
 
   const memoizedContentSizing: GlobalContentSizing | string =
     React.useMemo(() => {
@@ -25,7 +36,30 @@ export const useSection = () => {
     }
   }, [memoizedContentSizing]);
 
-  const acceptedItems: ItemTypes[] = ["button", "image"];
+  const acceptedItems: ItemTypes[] = ["button", "media"];
 
-  return { memoizedSectionWidth, acceptedItems };
+  // func
+  const handleDrop = React.useCallback(
+    async (item: ItemList, position: any, pageId: string) => {
+      let itemPayload: Partial<Item>;
+
+      switch (item.type) {
+        case "button": {
+          itemPayload = {
+            name: "Button",
+            type: item.type,
+            position,
+            pageId,
+            isLocked: false,
+            isVisible: true,
+            properties: handleGetDefaultProperties(item.type),
+          };
+          return handleCreateMoveable(itemPayload);
+        }
+      }
+    },
+    [handleCreateMoveable, handleGetDefaultProperties]
+  );
+
+  return { handleDrop, memoizedSectionWidth, acceptedItems };
 };

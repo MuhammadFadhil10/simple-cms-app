@@ -1,14 +1,13 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { useSection } from "../hooks";
-import { useMoveable, ItemTypes, MoveableRender } from "@/features/web";
+import { ItemList, MoveableRender } from "@/features/web";
 import { useDrop, DropTargetMonitor } from "react-dnd";
+import { useRouter } from "next/router";
 
 export const Section = React.memo(function Memo() {
-  const { memoizedSectionWidth } = useSection();
-
-  const { acceptedItems } = useSection();
-  const { handleCreateMoveable } = useMoveable();
+  const { pageId } = useRouter().query;
+  const { acceptedItems, memoizedSectionWidth, handleDrop } = useSection();
 
   const droppableContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -16,9 +15,10 @@ export const Section = React.memo(function Memo() {
     () => ({
       accept: acceptedItems,
       drop(_item: string, monitor) {
-        const type = monitor.getItemType();
-        handleCreateMoveable(type as ItemTypes, localStorage?.webId as string);
-        return undefined;
+        const item = monitor.getItem();
+        const position = monitor.getClientOffset();
+
+        handleDrop(item as unknown as ItemList, position, pageId as string);
       },
       collect: (monitor: DropTargetMonitor) => ({
         isOver: monitor.isOver(),
@@ -40,9 +40,6 @@ export const Section = React.memo(function Memo() {
         borderLeft: "2px solid rgba(0,0,0,0.1)",
         borderRight: "2px solid rgba(0,0,0,0.1)",
         alignSelf: "center",
-        // backgroundColor: "red",
-        // transform: "scale(0.5)",
-        // boxShadow: 5,
       }}
     >
       <div

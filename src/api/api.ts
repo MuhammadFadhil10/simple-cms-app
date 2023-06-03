@@ -37,8 +37,6 @@ Api.interceptors.response.use(
         window.location.href = "/signin";
         return Promise.reject(error);
       }
-    } else {
-      console.log("belum login");
     }
   }
 );

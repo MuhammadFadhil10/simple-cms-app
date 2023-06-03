@@ -1,8 +1,9 @@
 import * as React from "react";
-import { MutationEventType } from "@/features/web";
+import { Item, MutationEventType } from "@/features/web";
 import { QueryKey, useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Pages, Webs } from "@/api";
+import { Items } from "@/api/items";
 
 export const useGlobalMutation = (
   event: MutationEventType,
@@ -25,6 +26,17 @@ export const useGlobalMutation = (
 
         case "DELETE_PAGE": {
           return await Pages.deletePage(body as string);
+        }
+
+        // item
+        case "CREATE_ITEM": {
+          return await Items.createItems(body as Partial<Item>);
+        }
+        case "UPDATE_ITEM": {
+          return await Items.updateItems(
+            (body as any).itemId,
+            (body as any).payload as Partial<Item>
+          );
         }
       }
     },

@@ -1,7 +1,7 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
-// import { ItemsSection } from "./elements/ItemsSection";
 import { useAppStore } from "@/features/web/hooks";
+import { ItemsSection } from "./elements/ItemsSection";
 import { PagesSection } from "./elements/PagesSection";
 
 export const Sidebar = React.memo(function Sidebar() {
@@ -23,7 +23,7 @@ export const Sidebar = React.memo(function Sidebar() {
           }}
         >
           <PagesSection />
-          {/* <ItemsSection /> */}
+          <ItemsSection />
         </Stack>
       )}
     </>

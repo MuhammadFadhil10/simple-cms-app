@@ -1,22 +1,22 @@
-// import * as React from "react";
-// // import Box from "@mui/material/Box";
-// import Stack from "@mui/material/Stack";
-// import Typography from "@mui/material/Typography";
-// import { items } from "@/features/web";
-// // import { useDrag, DragSourceMonitor } from "react-dnd";
-// import { ItemRender } from "./ItemRender";
+import * as React from "react";
+// import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { itemList } from "@/features/web";
+// import { useDrag, DragSourceMonitor } from "react-dnd";
+import { ItemRender } from "./ItemRender";
 
-// export const ItemsSection = React.memo(function ItemsSection() {
-//   return (
-//     <Stack sx={{ width: "100%", height: "auto", px: 1 }}>
-//       <Stack sx={{ width: "100%" }}>
-//         <Typography>Items</Typography>
-//       </Stack>
-//       <Stack sx={{ width: "100%" }}>
-//         {items.map((item, index) => (
-//           <ItemRender key={item.id ?? index} item={item} />
-//         ))}
-//       </Stack>
-//     </Stack>
-//   );
-// });
+export const ItemsSection = React.memo(function ItemsSection() {
+  return (
+    <Stack sx={{ width: "100%", height: "auto", px: 1 }}>
+      <Stack marginBottom={1} sx={{ width: "100%" }}>
+        <Typography>Items</Typography>
+      </Stack>
+      <Stack direction="row" gap={1} sx={{ width: "100%" }}>
+        {itemList.map((item, index) => (
+          <ItemRender key={index} item={item} />
+        ))}
+      </Stack>
+    </Stack>
+  );
+});
