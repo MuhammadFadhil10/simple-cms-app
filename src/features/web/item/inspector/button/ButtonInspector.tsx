@@ -1,7 +1,7 @@
 import * as React from "react";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
-import { Item, SharedInspectorSection } from "@/features/web";
+// import Stack from "@mui/material/Stack";
+// import Typography from "@mui/material/Typography";
+import { Item, SharedInspectorSection, TextFormatInput } from "@/features/web";
 
 interface Props {
   item: Item;
@@ -16,10 +16,10 @@ export const ButtonInspector = React.memo(function ButtonInspector({
   return (
     <>
       {tab === "settings" && (
-        <SharedInspectorSection title="Test">
-          <Stack>
-            <Typography>Test</Typography>
-          </Stack>
+        <SharedInspectorSection title="Text">
+          {/* <Stack> */}
+          <TextFormatInput item={item} />
+          {/* </Stack> */}
         </SharedInspectorSection>
       )}
     </>

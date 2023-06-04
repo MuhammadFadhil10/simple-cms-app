@@ -106,12 +106,16 @@ export const useMoveable = () => {
   const handleGetSharedMoveableStyles = React.useCallback(
     (item: Item): React.CSSProperties => {
       const itemProps = item.properties;
+      const textStyle = itemProps.text?.style ?? {};
 
       return {
         ...itemProps.style,
+        ...textStyle,
+        textTransform: textStyle.textTransform ?? "inherit",
         width: "100%",
         height: "100%",
         transform: "",
+        overflow: "hidden",
       };
     },
     []

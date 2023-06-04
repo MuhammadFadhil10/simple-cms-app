@@ -1,12 +1,24 @@
 import * as React from "react";
 
 export type ItemTypes = "button" | "media";
+export type ItemText = {
+  output: string;
+  style?: {
+    fontSize?: string;
+    fontWeight?: "normal" | "bold";
+    textAlign?: "left" | "center" | "right";
+    textTransform?: "inherit" | "uppercase";
+    color?: string;
+  };
+};
+
 export interface ItemList {
   type: ItemTypes;
   label: string;
 }
 
 export type SharedItemProperties = {
+  text?: ItemText;
   style: React.CSSProperties;
   event: React.MouseEvent | null;
 };

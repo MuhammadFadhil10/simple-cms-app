@@ -11,12 +11,18 @@ interface Props {
   // eslint-disable-next-line no-unused-vars
   onColorChange: (color: string) => void;
   type?: "fill" | "stroke";
+  width?: string;
+  height?: string;
+  hideColorText?: boolean;
 }
 
 export const ColorInput = React.memo(function ColorInput({
   value,
   onColorChange,
   type = "fill",
+  width = "20px",
+  height = "20px",
+  hideColorText,
 }: Props) {
   const [anchorEl, setAnchorEl] = React.useState<HTMLDivElement | null>(null);
   const colorOpen = Boolean(anchorEl);
@@ -33,8 +39,8 @@ export const ColorInput = React.memo(function ColorInput({
     <Stack direction="row" alignItems="center" gap={1}>
       <Box
         sx={{
-          width: "20px",
-          height: "20px",
+          width: width,
+          height: height,
           backgroundColor: type === "fill" ? value : "transparent",
           borderRadius: "10%",
           cursor: "pointer",
@@ -43,7 +49,9 @@ export const ColorInput = React.memo(function ColorInput({
         }}
         onClick={(e) => setAnchorEl(e.currentTarget)}
       ></Box>
-      <Typography fontSize={14}>{value ?? "#333"}</Typography>
+      <Typography fontSize={14}>
+        {(!hideColorText && value) ?? "#333"}
+      </Typography>
       <Popover
         anchorEl={anchorEl}
         open={colorOpen}

@@ -8,6 +8,12 @@ export const useDefaultMoveable = () => {
   const defaultButtonProperties: ButtonProperties = React.useMemo(() => {
     return {
       event: null,
+      text: {
+        output: "Button",
+        style: {
+          color: "black",
+        },
+      },
       variant: "contained",
       style: {
         height: "30px",
