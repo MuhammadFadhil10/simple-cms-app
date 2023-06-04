@@ -11,7 +11,14 @@ export const ButtonItem = React.memo(function ButtonItem({ item }: Props) {
   const { itemProps, memoizedStyle } = useButtonItem(item);
 
   return (
-    <Button variant={itemProps.variant} sx={{ ...memoizedStyle }} disableRipple>
+    <Button
+      variant={itemProps.variant}
+      sx={{
+        ...memoizedStyle,
+        "&:hover": { backgroundColor: memoizedStyle.backgroundColor },
+      }}
+      disableRipple
+    >
       Button
     </Button>
   );

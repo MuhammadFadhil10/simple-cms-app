@@ -22,6 +22,7 @@ export const SharedInspectorSection = React.memo(
           width: "100%",
           minHeight: "50px",
           borderBottom: "1px solid #ccc",
+          color: "#444",
         }}
       >
         <Typography>{title}</Typography>

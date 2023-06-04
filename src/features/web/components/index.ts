@@ -1,5 +1,6 @@
 export * from "./auth";
 export * from "./AddItemButton";
+export * from "./ColorInput";
 export * from "./CreateWebModal";
 export * from "./FloatingAddItemButton";
 export * from "./inspector";

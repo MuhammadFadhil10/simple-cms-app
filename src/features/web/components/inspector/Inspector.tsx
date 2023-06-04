@@ -4,14 +4,21 @@ import { useAppStore, useMoveable } from "../../hooks";
 import { InspectorHeader } from "./InspectorHeader";
 import { Item } from "@/features/web";
 import { InspectorBodyRender } from "./InspectorBodyRender";
+import { InspectorTab } from "./InspectorTab";
 
 export const Inspector = React.memo(function Inspector() {
   const { activeId } = useAppStore();
   const { memoizedMovables } = useMoveable();
 
+  const [tab, setTab] = React.useState("settings");
+
   const activeMoveable = React.useMemo(() => {
     return memoizedMovables.find((item) => item._id === activeId);
   }, [activeId, memoizedMovables]);
+
+  const onChangeTab = React.useCallback((tab: string) => {
+    setTab(tab);
+  }, []);
 
   return (
     <>
@@ -31,7 +38,11 @@ export const Inspector = React.memo(function Inspector() {
         >
           <InspectorHeader item={activeMoveable as Item} />
 
-          {activeMoveable && <InspectorBodyRender item={activeMoveable} />}
+          <InspectorTab tab={tab} onChange={onChangeTab} />
+
+          {activeMoveable && (
+            <InspectorBodyRender item={activeMoveable} tab={tab} />
+          )}
         </Stack>
       )}
     </>

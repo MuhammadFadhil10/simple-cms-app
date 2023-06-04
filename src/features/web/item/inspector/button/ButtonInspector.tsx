@@ -5,19 +5,23 @@ import { Item, SharedInspectorSection } from "@/features/web";
 
 interface Props {
   item: Item;
+  tab: string;
 }
 
 export const ButtonInspector = React.memo(function ButtonInspector({
   item,
+  tab,
 }: Props) {
   console.log("item: ", item);
   return (
     <>
-      <SharedInspectorSection title="Test">
-        <Stack>
-          <Typography>Test</Typography>
-        </Stack>
-      </SharedInspectorSection>
+      {tab === "settings" && (
+        <SharedInspectorSection title="Test">
+          <Stack>
+            <Typography>Test</Typography>
+          </Stack>
+        </SharedInspectorSection>
+      )}
     </>
   );
 });
