@@ -1,7 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import {
   ColorInput,
   Item,
@@ -20,7 +17,7 @@ export const SharedInspectorBody = React.memo(function SharedInspectorBody({
 }: Props) {
   const { updateMoveable } = useMoveable();
 
-  const handleChange = React.useCallback(
+  const handleBackgroundColorChange = React.useCallback(
     (color: string) => {
       let currentProperties = item.properties;
 
@@ -37,20 +34,41 @@ export const SharedInspectorBody = React.memo(function SharedInspectorBody({
     [item._id, item.properties, updateMoveable]
   );
 
+  const handleStrokeColorChange = React.useCallback(
+    (color: string) => {
+      let currentProperties = item.properties;
+
+      currentProperties = {
+        ...currentProperties,
+        style: {
+          ...currentProperties.style,
+          border: `2px solid ${color}`,
+        },
+      };
+
+      updateMoveable(item._id, { properties: currentProperties });
+    },
+    [item._id, item.properties, updateMoveable]
+  );
+
   return (
     <>
       {tab === "style" && (
-        <SharedInspectorSection title="Fill">
-          <Stack>
-            <Box display="flex" gap={1} alignItems="center">
-              <ColorInput
-                value={item.properties.style.backgroundColor as string}
-                onColorChange={handleChange}
-              />
-              <Typography fontSize={14}>Background Color</Typography>
-            </Box>
-          </Stack>
-        </SharedInspectorSection>
+        <>
+          <SharedInspectorSection title="Fill">
+            <ColorInput
+              value={item.properties.style.backgroundColor as string}
+              onColorChange={handleBackgroundColorChange}
+            />
+          </SharedInspectorSection>
+          <SharedInspectorSection title="Stroke">
+            <ColorInput
+              type="stroke"
+              value={item.properties.style.border as string}
+              onColorChange={handleStrokeColorChange}
+            />
+          </SharedInspectorSection>
+        </>
       )}
     </>
   );
