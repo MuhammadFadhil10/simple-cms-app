@@ -1,8 +1,8 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import { MoveableItemWrapper } from "./MoveableItemWrapper";
-import { useMoveable } from "../hooks";
-import { ButtonItem } from "../item";
+import { useMoveable } from "../../hooks";
+import { ButtonItem } from "../../item";
 
 export const MoveableContainer = React.forwardRef(function MoveableContainer(
   props,

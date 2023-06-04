@@ -1,14 +1,7 @@
 import * as React from "react";
 import { Web } from "@/features";
-import {
-  Page,
-  WebEditor,
-  // useGetPages,
-  // useGetWebs,
-  // usePage,
-} from "@/features/web";
+import { Page, WebEditor } from "@/features/web";
 import { useRouter } from "next/router";
-// import { useQuery } from "@tanstack/react-query";
 import { Pages, Webs } from "@/api";
 
 const WebEditorPage = () => {

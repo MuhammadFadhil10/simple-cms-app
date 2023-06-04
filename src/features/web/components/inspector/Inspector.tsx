@@ -3,6 +3,7 @@ import Stack from "@mui/material/Stack";
 import { useAppStore, useMoveable } from "../../hooks";
 import { InspectorHeader } from "./InspectorHeader";
 import { Item } from "@/features/web";
+import { InspectorBodyRender } from "./InspectorBodyRender";
 
 export const Inspector = React.memo(function Inspector() {
   const { activeId } = useAppStore();
@@ -16,7 +17,7 @@ export const Inspector = React.memo(function Inspector() {
     <>
       {activeId.trim().length > 0 && (
         <Stack
-          gap={2}
+          // gap={2}
           sx={{
             width: "20vw",
             backgroundColor: "white",
@@ -29,6 +30,8 @@ export const Inspector = React.memo(function Inspector() {
           }}
         >
           <InspectorHeader item={activeMoveable as Item} />
+
+          {activeMoveable && <InspectorBodyRender item={activeMoveable} />}
         </Stack>
       )}
     </>
