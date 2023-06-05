@@ -16,6 +16,7 @@ export const ButtonItem = React.memo(function ButtonItem({ item }: Props) {
       variant={itemProps.variant}
       sx={{
         ...memoizedStyle,
+        px: 1,
         "&:hover": { backgroundColor: memoizedStyle.backgroundColor },
       }}
       disableRipple

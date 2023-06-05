@@ -1,3 +1,3 @@
-export * from "./components";
+export * from "./moveable";
 export * from "./inspector";
 export * from "./utils";
