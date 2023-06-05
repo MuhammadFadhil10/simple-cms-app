@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Web } from "@/features";
+import { Web, WebEditorLayout } from "@/features";
 import { Page, WebEditor } from "@/features/web";
 import { useRouter } from "next/router";
 import { Pages, Webs } from "@/api";
@@ -34,5 +34,9 @@ export async function getServerSideProps() {
     props: {},
   };
 }
+
+WebEditorPage.getLayout = function getLayout(page: React.ReactNode) {
+  return <WebEditorLayout>{page}</WebEditorLayout>;
+};
 
 export default WebEditorPage;

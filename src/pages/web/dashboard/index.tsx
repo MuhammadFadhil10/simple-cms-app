@@ -1,17 +1,11 @@
-// import { Webs } from "@/api";
+import * as React from "react";
+import { WebEditorLayout } from "@/features";
 import { CreateWeb } from "@/features/web";
-// import { GetStaticProps } from "next";
 
 export default function CreateWebPage() {
   return <CreateWeb />;
 }
 
-// export const getStaticProps: GetStaticProps = async () => {
-//   try {
-//     const webs = await Webs.getWebs();
-
-//     return { props: { webs: webs?.data } };
-//   } catch (error) {
-//     return { props: { webs: [] } };
-//   }
-// };
+CreateWebPage.getLayout = function getLayout(page: React.ReactNode) {
+  return <WebEditorLayout>{page}</WebEditorLayout>;
+};
