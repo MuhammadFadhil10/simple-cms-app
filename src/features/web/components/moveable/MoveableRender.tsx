@@ -26,6 +26,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
           <Moveable
             ref={moveableRef}
             draggable={true}
+            snapContainer={(ref as React.RefObject<HTMLDivElement>).current}
             target={
               targets.length > 0 && activeId.trim().length > 0
                 ? targets
@@ -111,8 +112,12 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
 
           <Selecto
             ref={selectoRef}
-            dragContainer={(ref as React.RefObject<HTMLDivElement>).current}
+            // dragContainer={(ref as React.RefObject<HTMLDivElement>).current}
             boundContainer={(ref as React.RefObject<HTMLDivElement>).current}
+            rootContainer={(ref as React.RefObject<HTMLDivElement>).current}
+            // scrollOptions={{
+            //   container: (ref as React.RefObject<HTMLElement>).current as HTMLElement,
+            // }}
             selectableTargets={[".items"]}
             hitRate={0}
             selectByClick={true}

@@ -35,7 +35,6 @@ export interface Item {
   _id: string;
   name: string;
   type: ItemTypes;
-  position: { x: number; y: number };
   pageId: string;
   isLocked: boolean;
   isVisible: boolean;

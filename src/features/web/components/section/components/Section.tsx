@@ -11,6 +11,7 @@ export const Section = React.memo(function Memo() {
   const { acceptedItems, handleDrop } = useSection();
   const { memoizedMovables, moveablesLoading } = useMoveable();
 
+  // const wrapperRef =
   const droppableContainerRef = React.useRef<HTMLDivElement>(null);
 
   const [, drop] = useDrop(
@@ -18,16 +19,29 @@ export const Section = React.memo(function Memo() {
       accept: acceptedItems,
       drop(_item: string, monitor) {
         const item = monitor.getItem() as unknown as ItemList;
-        const position = monitor.getClientOffset();
-
         const existingItemType = memoizedMovables.filter(
           (moveable) => moveable.type === item.type
         );
 
+        /*  calculate drop position 
+            (getClientOffset position no accurate
+            if drop container size is not full page
+        */
+        const siOffset = monitor.getInitialSourceClientOffset();
+        const piOffset = monitor.getInitialClientOffset();
+        const idx = (piOffset?.x ?? 0) - (siOffset?.x ?? 0);
+        const idy = (piOffset?.y ?? 0) - (siOffset?.y ?? 0);
+
+        const offset = monitor.getClientOffset();
+        let targetRect = droppableContainerRef.current?.getBoundingClientRect();
+        //Below is the position relative to parent container
+        let x = (offset?.x ?? 0) - (targetRect?.left ?? 0) - idx * 0.5;
+        let y = (offset?.y ?? 0) - (targetRect?.top ?? 0) - idy * 0.5;
+
         handleDrop(
           `${item.label} ${existingItemType.length + 1}`,
           item,
-          position,
+          { x, y },
           pageId as string
         );
       },
@@ -56,14 +70,17 @@ export const Section = React.memo(function Memo() {
     );
 
   return (
+    // <div style={{ position: "relative" }}>
     <Stack
       component="section"
       ref={drop}
       className="container"
       sx={{
-        width: "100vw",
-        minHeight: "100vh",
-        alignSelf: "center",
+        width: "1000px",
+        minHeight: "500px",
+        // alignSelf: "center",
+        backgroundColor: "blue",
+        // position: "absolute",
       }}
     >
       <div
@@ -73,5 +90,6 @@ export const Section = React.memo(function Memo() {
         <MoveableRender ref={droppableContainerRef} />
       </div>
     </Stack>
+    // </div>
   );
 });

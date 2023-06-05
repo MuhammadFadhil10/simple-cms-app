@@ -29,9 +29,7 @@ export const MoveableItemWrapper = React.memo(function MoveableItemWrapper({
               height,
               width,
               position: "absolute",
-              transform:
-                item.properties.style.transform ??
-                `translate(${item.position.x}px, ${item.position.y}px)`,
+              transform: item.properties.style.transform,
             }}
             data-id={item._id}
           >

@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Item,
   ItemList,
+  ItemPropertiesTypes,
   ItemTypes,
   useDefaultMoveable,
   useMain,
@@ -42,17 +43,25 @@ export const useSection = () => {
   const handleDrop = React.useCallback(
     async (name: string, item: ItemList, position: any, pageId: string) => {
       let itemPayload: Partial<Item>;
+      const properties: ItemPropertiesTypes = handleGetDefaultProperties(
+        item.type
+      ) as ItemPropertiesTypes;
 
       switch (item.type) {
         case "button": {
           itemPayload = {
             name,
             type: item.type,
-            position,
             pageId,
             isLocked: false,
             isVisible: true,
-            properties: handleGetDefaultProperties(item.type),
+            properties: {
+              ...properties,
+              style: {
+                ...properties?.style,
+                transform: `translate(${position.x}px, ${position.y}px)`,
+              },
+            },
           };
           return handleCreateMoveable(itemPayload);
         }

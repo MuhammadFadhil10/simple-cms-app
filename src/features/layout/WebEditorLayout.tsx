@@ -7,7 +7,7 @@ interface Props {
 
 export const WebEditorLayout = ({ children }: Props) => {
   const { pathname } = useRouter();
-  console.log("pathname: ", pathname);
+
   return (
     <>
       <title>
