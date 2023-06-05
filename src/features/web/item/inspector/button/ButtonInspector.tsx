@@ -12,14 +12,11 @@ export const ButtonInspector = React.memo(function ButtonInspector({
   item,
   tab,
 }: Props) {
-  console.log("item: ", item);
   return (
     <>
       {tab === "settings" && (
         <SharedInspectorSection title="Text">
-          {/* <Stack> */}
           <TextFormatInput item={item} />
-          {/* </Stack> */}
         </SharedInspectorSection>
       )}
     </>

@@ -1,5 +1,6 @@
 import * as React from "react";
 import Stack from "@mui/material/Stack";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useSection } from "../hooks";
 import { ItemList, MoveableRender, useMoveable } from "@/features/web";
 import { useDrop, DropTargetMonitor } from "react-dnd";
@@ -8,7 +9,7 @@ import { useRouter } from "next/router";
 export const Section = React.memo(function Memo() {
   const { pageId } = useRouter().query;
   const { acceptedItems, handleDrop } = useSection();
-  const { memoizedMovables } = useMoveable();
+  const { memoizedMovables, moveablesLoading } = useMoveable();
 
   const droppableContainerRef = React.useRef<HTMLDivElement>(null);
 
@@ -38,6 +39,21 @@ export const Section = React.memo(function Memo() {
     }),
     [memoizedMovables]
   );
+
+  if (moveablesLoading)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
 
   return (
     <Stack

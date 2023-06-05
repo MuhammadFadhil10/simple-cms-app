@@ -20,6 +20,10 @@ export const Inspector = React.memo(function Inspector() {
     setTab(tab);
   }, []);
 
+  React.useEffect(() => {
+    if (!activeMoveable) setTab("settings");
+  }, [activeMoveable]);
+
   return (
     <>
       {activeId.trim().length > 0 && (

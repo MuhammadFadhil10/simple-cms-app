@@ -19,8 +19,8 @@ export const useMoveable = () => {
     "items",
   ]);
 
-  const { data: rawMovables } = useQuery({
-    queryKey: ["items"],
+  const { data: rawMovables, isLoading: moveablesLoading } = useQuery({
+    queryKey: ["items", pageId],
     queryFn: () => Items.getItems(pageId as string),
   });
 
@@ -122,6 +122,7 @@ export const useMoveable = () => {
   );
 
   return {
+    moveablesLoading,
     memoizedMovables,
     handleCreateMoveable,
     handleResizeMoveable,
