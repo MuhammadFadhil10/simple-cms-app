@@ -27,7 +27,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             ref={moveableRef}
             draggable={true}
             target={
-              targets.length > 0
+              targets.length > 0 && activeId.trim().length > 0
                 ? targets
                 : (ref as React.RefObject<HTMLDivElement>).current
             }
