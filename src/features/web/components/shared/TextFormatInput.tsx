@@ -63,6 +63,8 @@ export const TextFormatInput = React.memo(function TextFormatInput({
     <Box display="flex" flexDirection="column" sx={{ width: "100%" }}>
       <TextField
         type="text"
+        multiline
+        minRows={2}
         size="small"
         value={value}
         onChange={(e) => {
@@ -163,7 +165,7 @@ export const TextFormatInput = React.memo(function TextFormatInput({
             cursor: "pointer",
             backgroundColor:
               textStyle.textTransform === "uppercase" ? "#ccc" : "transparent",
-              px:1
+            px: 1,
           }}
           onClick={() => {
             const isUppercase = textStyle.textTransform === "uppercase";
