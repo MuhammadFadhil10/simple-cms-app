@@ -24,6 +24,7 @@ export const ColorInput = React.memo(function ColorInput({
   height = "20px",
   hideColorText,
 }: Props) {
+  const [colorDisplay, setColorDisplay] = React.useState(value);
   const [anchorEl, setAnchorEl] = React.useState<HTMLDivElement | null>(null);
   const colorOpen = Boolean(anchorEl);
 
@@ -41,11 +42,13 @@ export const ColorInput = React.memo(function ColorInput({
         sx={{
           width: width,
           height: height,
-          backgroundColor: type === "fill" ? value : "transparent",
+          backgroundColor: type === "fill" ? colorDisplay : "transparent",
           borderRadius: "10%",
           cursor: "pointer",
           border:
-            type === "fill" ? "2px solid #333" : value ?? "3px solid #333",
+            type === "fill"
+              ? "2px solid #333"
+              : colorDisplay ?? "3px solid #333",
         }}
         onClick={(e) => setAnchorEl(e.currentTarget)}
       ></Box>
@@ -68,12 +71,14 @@ export const ColorInput = React.memo(function ColorInput({
         <SketchPicker
           defaultColor={value ?? "#333"}
           onChangeComplete={({ rgb: color }) => {
-            // alert(hex);
+            setColorDisplay(
+              `rgba(${color.r},${color.g},${color.b},${color.a})`
+            );
+
             handleChangeColor(
               `rgba(${color.r},${color.g},${color.b},${color.a})`
             );
           }}
-          //   presetColors={["red", "blue"]}
         />
       </Popover>
     </Stack>

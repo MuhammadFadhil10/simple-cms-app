@@ -39,7 +39,7 @@ export const useGlobalMutation = (
           );
         }
         case "DELETE_ITEM": {
-          return Items.deleteItem(body as string);
+          return await Items.deleteItem(body as string);
         }
       }
     },
@@ -54,7 +54,7 @@ export const useGlobalMutation = (
 
       const previousData = queryClient.getQueryData(queryKey as QueryKey);
 
-      queryClient.setQueryData(["todos"], () => data);
+      queryClient.setQueryData(queryKey as QueryKey, () => data);
 
       return { previousData };
     },

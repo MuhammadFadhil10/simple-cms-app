@@ -35,6 +35,18 @@ export const TextFormatInput = React.memo(function TextFormatInput({
     };
   }, [item.properties.text?.style]);
 
+  // status state
+  const [isBold, setIsBold] = React.useState(textStyle.fontWeight === "bold");
+  const [isUppercase, setIsUppercase] = React.useState(
+    textStyle.textTransform === "uppercase"
+  );
+  const [alignment, setAlignment] = React.useState<"left" | "center" | "right">(
+    textStyle.textAlign
+  );
+  const [fontSize, setFontSize] = React.useState(
+    textStyle.fontSize.split("px")[0]
+  );
+
   const handleUpdateOutput = React.useMemo(() => {
     return debounceCallback((valueInput: string) =>
       updateMoveableProps(item, "text", {
@@ -61,6 +73,7 @@ export const TextFormatInput = React.memo(function TextFormatInput({
 
   return (
     <Box display="flex" flexDirection="column" sx={{ width: "100%" }}>
+      {/* text */}
       <TextField
         type="text"
         multiline
@@ -85,6 +98,7 @@ export const TextFormatInput = React.memo(function TextFormatInput({
           boxSizing: "border-box",
         }}
       >
+        {/* color */}
         <ColorInput
           value={item.properties.text?.style?.color ?? "black"}
           onColorChange={(color) => handleUpdateStyle("color", color)}
@@ -93,48 +107,59 @@ export const TextFormatInput = React.memo(function TextFormatInput({
           height="12px"
         />
         <VerticalDivider />
+
+        {/* alignment */}
         <Box display="flex" alignItems="center" gap={1}>
           <AlignLeftIcon
             fontSize="small"
             sx={{
               cursor: "pointer",
-              backgroundColor:
-                textStyle.textAlign === "left" ? "#ccc" : "transparent",
+              backgroundColor: alignment === "left" ? "#ccc" : "transparent",
             }}
-            onClick={() => handleUpdateStyle("textAlign", "left")}
+            onClick={() => {
+              setAlignment("left");
+              handleUpdateStyle("textAlign", "left");
+            }}
           />
           <AlignCenterIcon
             fontSize="small"
             sx={{
               cursor: "pointer",
-              backgroundColor:
-                textStyle.textAlign === "center" ? "#ccc" : "transparent",
+              backgroundColor: alignment === "center" ? "#ccc" : "transparent",
             }}
-            onClick={() => handleUpdateStyle("textAlign", "center")}
+            onClick={() => {
+              setAlignment("center");
+              handleUpdateStyle("textAlign", "center");
+            }}
           />
           <AlignRightIcon
             fontSize="small"
             sx={{
               cursor: "pointer",
-              backgroundColor:
-                textStyle.textAlign === "right" ? "#ccc" : "transparent",
+              backgroundColor: alignment === "right" ? "#ccc" : "transparent",
             }}
-            onClick={() => handleUpdateStyle("textAlign", "right")}
+            onClick={() => {
+              setAlignment("right");
+              handleUpdateStyle("textAlign", "right");
+            }}
           />
         </Box>
         <VerticalDivider />
+
+        {/* font size */}
         <Box display="flex" alignItems="center" gap={1}>
-          {/* <FontSizeIcon fontSize="small" /> */}
           <FormControl variant="standard">
             <Select
               size="small"
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={textStyle.fontSize.split("px")[0]}
+              value={fontSize}
               sx={{ height: "100%" }}
-              onChange={(e) =>
-                handleUpdateStyle("fontSize", `${e.target.value}px`)
-              }
+              onChange={(e) => {
+                setFontSize(e.target.value);
+
+                handleUpdateStyle("fontSize", `${e.target.value}px`);
+              }}
             >
               {[13, 16, 20, 24, 32, 36, 40, 48, 64, 96, 128].map((size) => (
                 <MenuItem key={size} value={size}>
@@ -145,34 +170,40 @@ export const TextFormatInput = React.memo(function TextFormatInput({
           </FormControl>
         </Box>
         <VerticalDivider />
+
+        {/* bold */}
         <BoldIcon
           fontSize="small"
           sx={{
             cursor: "pointer",
-            backgroundColor:
-              textStyle.fontWeight === "bold" ? "#ccc" : "transparent",
+            backgroundColor: isBold ? "#ccc" : "transparent",
           }}
           onClick={() => {
-            const isBold = textStyle.fontWeight === "bold";
+            const actualIsBold = textStyle.fontWeight === "bold";
 
-            handleUpdateStyle("fontWeight", !isBold ? "bold" : "normal");
+            setIsBold(!isBold);
+
+            handleUpdateStyle("fontWeight", !actualIsBold ? "bold" : "normal");
           }}
         />
         <VerticalDivider />
+
+        {/* uppercase */}
         <Box
           display="flex"
           sx={{
             cursor: "pointer",
-            backgroundColor:
-              textStyle.textTransform === "uppercase" ? "#ccc" : "transparent",
+            backgroundColor: isUppercase ? "#ccc" : "transparent",
             px: 1,
           }}
           onClick={() => {
-            const isUppercase = textStyle.textTransform === "uppercase";
+            const actualIsUppercase = textStyle.textTransform === "uppercase";
+
+            setIsUppercase(!isUppercase);
 
             handleUpdateStyle(
               "textTransform",
-              !isUppercase ? "uppercase" : "inherit"
+              !actualIsUppercase ? "uppercase" : "inherit"
             );
           }}
         >
