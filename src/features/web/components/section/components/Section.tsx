@@ -76,13 +76,13 @@ export const Section = React.memo(function Memo() {
       ref={drop}
       className="container"
       sx={{
-        width: "1000px",
-        minHeight: "500px",
-        // alignSelf: "center",
+        width: "100vw",
+        minHeight: "100vh",
         position: "relative",
         overflowX: "hidden",
         boxShadow: 5,
         backgroundColor: "white",
+        transform: "scale(.7)",
       }}
     >
       <div

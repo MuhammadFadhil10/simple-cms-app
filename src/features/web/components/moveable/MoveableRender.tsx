@@ -114,9 +114,10 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             ref={selectoRef}
             // dragContainer={(ref as React.RefObject<HTMLDivElement>).current}
             boundContainer={true}
-            rootContainer={(ref as React.RefObject<HTMLDivElement>).current}
+            rootContainer={document.body}
             // scrollOptions={{
-            //   container: (ref as React.RefObject<HTMLElement>).current as HTMLElement,
+            //   container: (ref as React.RefObject<HTMLElement>)
+            //     .current as HTMLElement,
             // }}
             // continueSelectWithoutDeselect={true}
             selectableTargets={[".items"]}
