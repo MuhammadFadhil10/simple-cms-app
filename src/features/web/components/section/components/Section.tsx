@@ -79,9 +79,10 @@ export const Section = React.memo(function Memo() {
         width: "1000px",
         minHeight: "500px",
         // alignSelf: "center",
-        backgroundColor: "blue",
         position: "relative",
         overflowX: "hidden",
+        boxShadow: 5,
+        backgroundColor: "white",
       }}
     >
       <div
