@@ -22,6 +22,7 @@ export const useDefaultMoveable = () => {
       },
     };
   }, [palette.primary.main]);
+
   // function
   const handleGetDefaultProperties = React.useCallback(
     (type: ItemTypes): ItemPropertiesTypes | undefined => {
