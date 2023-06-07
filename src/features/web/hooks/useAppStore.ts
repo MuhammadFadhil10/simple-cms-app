@@ -1,13 +1,14 @@
 import * as React from "react";
-import { useAppDispatch, useAppSelector } from "@/features/web";
-
-// slice
 import {
+  useAppDispatch,
+  useAppSelector,
   toggleSidebarOpen,
   decrementZoom,
   incrementZoom,
+  changeZoomByValue,
   handleActiveId,
   changeMousePosition,
+  EditorZoom,
 } from "@/features/web";
 
 export const useAppStore = () => {
@@ -35,12 +36,14 @@ export const useAppStore = () => {
   );
 
   const setZoomValue = React.useCallback(
-    (action: "PLUS" | "MIN") => {
+    (action: "PLUS" | "MIN" | EditorZoom) => {
       if (action === "PLUS") {
-        return dispatch(incrementZoom());
+        dispatch(incrementZoom());
+      } else if (action === "MIN") {
+        dispatch(decrementZoom());
+      } else {
+        dispatch(changeZoomByValue(action));
       }
-
-      dispatch(decrementZoom());
     },
     [dispatch]
   );

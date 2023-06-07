@@ -37,6 +37,10 @@ export const editorSlice = createSlice({
       state.zoomValue -= 10;
     },
 
+    changeZoomByValue: (state, action: PayloadAction<EditorZoom>) => {
+      state.zoomValue = action.payload;
+    },
+
     changeMousePosition: (
       state,
       action: PayloadAction<{ x: number; y: number }>
@@ -46,7 +50,11 @@ export const editorSlice = createSlice({
   },
 });
 
-export const { incrementZoom, decrementZoom, changeMousePosition } =
-  editorSlice.actions;
+export const {
+  incrementZoom,
+  decrementZoom,
+  changeZoomByValue,
+  changeMousePosition,
+} = editorSlice.actions;
 
 export default editorSlice.reducer;

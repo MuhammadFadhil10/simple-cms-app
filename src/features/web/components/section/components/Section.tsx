@@ -40,6 +40,7 @@ export const Section = React.memo(function Memo() {
 
         const offset = monitor.getClientOffset();
         let targetRect = droppableContainerRef.current?.getBoundingClientRect();
+
         //Below is the position relative to parent container
         let x = (offset?.x ?? 0) - (targetRect?.left ?? 0) - idx * 0.5;
         let y = (offset?.y ?? 0) - (targetRect?.top ?? 0) - idy * 0.5;

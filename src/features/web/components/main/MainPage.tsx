@@ -3,8 +3,12 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import { Section } from "../section";
 import { useAppStore } from "@/features/web";
+import { MainToolbar } from "./MainToolbar";
+import { useRouter } from "next/router";
 
 export const MainPage = React.memo(function MainPage() {
+  const { pageId } = useRouter().query;
+
   const { sidebarOpen, setSidebarOpen, setZoomValue, setMousePosition } =
     useAppStore();
 
@@ -39,9 +43,9 @@ export const MainPage = React.memo(function MainPage() {
   // not final, different screen problem
   React.useEffect(() => {
     if (typeof window !== "undefined") {
-      window.scrollTo(776, 370);
+      window.scrollTo(window.innerWidth / 2, window.innerHeight / 2);
     }
-  }, []);
+  }, [pageId]);
 
   return (
     <Stack
@@ -56,6 +60,7 @@ export const MainPage = React.memo(function MainPage() {
       onClick={() => sidebarOpen && setSidebarOpen(false)}
       onWheel={onWheel}
     >
+      <MainToolbar />
       <Section />
     </Stack>
   );
