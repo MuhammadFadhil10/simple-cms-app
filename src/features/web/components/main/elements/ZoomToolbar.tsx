@@ -6,6 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
 import MinimizeIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import FitScreenIcon from "@mui/icons-material/Fullscreen";
 import { EditorZoom, useAppStore } from "@/features/web";
 
 export const ZoomToolbar = React.memo(function ZoomToolbar() {
@@ -63,7 +64,10 @@ export const ZoomToolbar = React.memo(function ZoomToolbar() {
               handleZoomChange(e.target.value as EditorZoom);
             }}
           >
-            <MenuItem value={"FIT-100"}>Fit to screen</MenuItem>
+            <MenuItem sx={{ gap: 1 }} value={"FIT-100"}>
+              <FitScreenIcon fontSize="small" />
+              Fit to screen
+            </MenuItem>
             <Divider />
             {zoomValueArray.map((zoom) => (
               <MenuItem key={zoom} value={zoom}>
