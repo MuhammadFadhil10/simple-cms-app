@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import counter from "./counterSlice";
-import sidebarOpen from "./sidebarSlice";
+import editor from "./editorSlice";
 import moveable from "./moveableSlice";
+import sidebarOpen from "./sidebarSlice";
 
 export const store = configureStore({
-  reducer: { counter, sidebarOpen, moveable },
+  reducer: { sidebarOpen, moveable, editor },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

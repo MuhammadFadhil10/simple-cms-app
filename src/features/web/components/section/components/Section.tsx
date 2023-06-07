@@ -2,14 +2,20 @@ import * as React from "react";
 import Stack from "@mui/material/Stack";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useSection } from "../hooks";
-import { ItemList, MoveableRender, useMoveable } from "@/features/web";
+import {
+  ItemList,
+  MoveableRender,
+  useAppStore,
+  useMoveable,
+} from "@/features/web";
 import { useDrop, DropTargetMonitor } from "react-dnd";
 import { useRouter } from "next/router";
 
 export const Section = React.memo(function Memo() {
   const { pageId } = useRouter().query;
-  const { acceptedItems, handleDrop } = useSection();
+  const { acceptedItems, handleDrop, memoizedZoomValue } = useSection();
   const { memoizedMovables, moveablesLoading } = useMoveable();
+  const { mousePosition } = useAppStore();
 
   // const wrapperRef =
   const droppableContainerRef = React.useRef<HTMLDivElement>(null);
@@ -75,6 +81,7 @@ export const Section = React.memo(function Memo() {
       component="section"
       ref={drop}
       className="container"
+      id="section"
       sx={{
         width: "100vw",
         minHeight: "100vh",
@@ -82,7 +89,11 @@ export const Section = React.memo(function Memo() {
         overflowX: "hidden",
         boxShadow: 5,
         backgroundColor: "white",
-        transform: "scale(.7)",
+        transform: `scale(${memoizedZoomValue})`,
+        transformOrigin: `${
+          mousePosition.x === 0 ? "" : mousePosition.x + "px"
+        } ${mousePosition.y === 0 ? "" : mousePosition.y + "px"}`,
+        overflow: "hidden",
       }}
     >
       <div

@@ -4,40 +4,31 @@ import {
   ItemList,
   ItemPropertiesTypes,
   ItemTypes,
+  useAppStore,
   useDefaultMoveable,
-  useMain,
   useMoveable,
 } from "@/features/web";
-import { GlobalContentSizing } from "@/features/types";
-// import { useRouter } from "next/router";
 
 export const useSection = () => {
-  // const router = useRouter();
-  const { memoizedCurrentWeb } = useMain();
   const { handleGetDefaultProperties } = useDefaultMoveable();
   const { handleCreateMoveable } = useMoveable();
-
-  const memoizedContentSizing: GlobalContentSizing | string =
-    React.useMemo(() => {
-      if (!(memoizedCurrentWeb as any)?.contentSizing) return "";
-
-      return (memoizedCurrentWeb as any)?.contentSizing as GlobalContentSizing;
-    }, [memoizedCurrentWeb]);
-
-  const memoizedSectionWidth = React.useMemo(() => {
-    switch (memoizedContentSizing) {
-      case "full":
-        return "100%";
-      case "semi-full":
-        return "80%";
-      case "center":
-        return "50%";
-      default:
-        return "100%";
-    }
-  }, [memoizedContentSizing]);
+  const { zoomValue } = useAppStore();
 
   const acceptedItems: ItemTypes[] = ["button", "media"];
+
+  const memoizedZoomValue = React.useMemo(() => {
+    const tempCalc = zoomValue / 10;
+
+    if (tempCalc < 10) {
+      return `.${tempCalc}`;
+    } else if (tempCalc === 10) {
+      return `1`;
+    } else if (tempCalc > 10 && tempCalc < 20) {
+      return `1.${tempCalc.toString().split("")[1]}`;
+    } else if (tempCalc === 20) {
+      return `2`;
+    }
+  }, [zoomValue]);
 
   // func
   const handleDrop = React.useCallback(
@@ -70,5 +61,5 @@ export const useSection = () => {
     [handleCreateMoveable, handleGetDefaultProperties]
   );
 
-  return { handleDrop, memoizedSectionWidth, acceptedItems };
+  return { handleDrop, acceptedItems, memoizedZoomValue };
 };

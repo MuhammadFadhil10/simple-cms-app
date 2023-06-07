@@ -2,26 +2,24 @@ import * as React from "react";
 import { useAppDispatch, useAppSelector } from "@/features/web";
 
 // slice
-import { incrementByAmount } from "@/features/web/app/counterSlice";
-import { toggleSidebarOpen } from "@/features/web/app/sidebarSlice";
-import { handleActiveId } from "@/features/web/app/moveableSlice";
+import {
+  toggleSidebarOpen,
+  decrementZoom,
+  incrementZoom,
+  handleActiveId,
+  changeMousePosition,
+} from "@/features/web";
 
 export const useAppStore = () => {
   const dispatch = useAppDispatch();
 
   // getter
-  const count = useAppSelector((state) => state.counter.value);
   const sidebarOpen = useAppSelector((state) => state.sidebarOpen.open);
   const activeId = useAppSelector((state) => state.moveable.activeId);
+  const zoomValue = useAppSelector((state) => state.editor.zoomValue);
+  const mousePosition = useAppSelector((state) => state.editor.mousePosition);
 
   // setter
-  const setCount = React.useCallback(
-    (state: number) => {
-      dispatch(incrementByAmount(state));
-    },
-    [dispatch]
-  );
-
   const setSidebarOpen = React.useCallback(
     (state: boolean) => {
       dispatch(toggleSidebarOpen(state));
@@ -36,12 +34,32 @@ export const useAppStore = () => {
     [dispatch]
   );
 
+  const setZoomValue = React.useCallback(
+    (action: "PLUS" | "MIN") => {
+      if (action === "PLUS") {
+        return dispatch(incrementZoom());
+      }
+
+      dispatch(decrementZoom());
+    },
+    [dispatch]
+  );
+
+  const setMousePosition = React.useCallback(
+    (position: { x: number; y: number }) => {
+      dispatch(changeMousePosition({ x: position.x, y: position.y }));
+    },
+    [dispatch]
+  );
+
   return {
-    count,
-    setCount,
     sidebarOpen,
-    setSidebarOpen,
     activeId,
+    zoomValue,
+    mousePosition,
+    setSidebarOpen,
     setActiveId,
+    setZoomValue,
+    setMousePosition,
   };
 };

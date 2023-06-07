@@ -21,7 +21,7 @@ export const MoveableContainer = React.forwardRef(function MoveableContainer(
     >
       {/* items */}
       {memoizedMovables.map((item) => (
-        <>
+        <React.Fragment key={item._id}>
           <MoveableItemWrapper
             sectionRef={
               (ref as React.RefObject<HTMLDivElement>).current as HTMLDivElement
@@ -30,7 +30,7 @@ export const MoveableContainer = React.forwardRef(function MoveableContainer(
           >
             {item.type === "button" && <ButtonItem item={item} />}
           </MoveableItemWrapper>
-        </>
+        </React.Fragment>
       ))}
     </Box>
   );
