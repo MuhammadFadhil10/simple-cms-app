@@ -9,6 +9,8 @@ import {
   handleActiveId,
   changeMousePosition,
   EditorZoom,
+  toggleHandMode,
+  toggleGrabWindow,
 } from "@/features/web";
 
 export const useAppStore = () => {
@@ -19,6 +21,8 @@ export const useAppStore = () => {
   const activeId = useAppSelector((state) => state.moveable.activeId);
   const zoomValue = useAppSelector((state) => state.editor.zoomValue);
   const mousePosition = useAppSelector((state) => state.editor.mousePosition);
+  const isHandMode = useAppSelector((state) => state.editor.isHandMode);
+  const isGrabWindow = useAppSelector((state) => state.editor.isGrabWindow);
 
   // setter
   const setSidebarOpen = React.useCallback(
@@ -55,14 +59,32 @@ export const useAppStore = () => {
     [dispatch]
   );
 
+  const setToggleHandMode = React.useCallback(
+    (state?: boolean) => {
+      dispatch(toggleHandMode(state as boolean));
+    },
+    [dispatch]
+  );
+
+  const setToggleGrabWindow = React.useCallback(
+    (state?: boolean) => {
+      dispatch(toggleGrabWindow(state as boolean));
+    },
+    [dispatch]
+  );
+
   return {
     sidebarOpen,
     activeId,
     zoomValue,
     mousePosition,
+    isHandMode,
+    isGrabWindow,
     setSidebarOpen,
     setActiveId,
     setZoomValue,
     setMousePosition,
+    setToggleHandMode,
+    setToggleGrabWindow,
   };
 };

@@ -9,7 +9,7 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
   props,
   ref
 ) {
-  const { activeId, setActiveId } = useAppStore();
+  const { activeId, setActiveId, isHandMode } = useAppStore();
   const { memoizedMovables, updateMoveableTransform, handleResizeMoveable } =
     useMoveable();
 
@@ -127,6 +127,8 @@ export const MoveableRender = React.forwardRef(function MoveableRender(
             toggleContinueSelect={["shift"]}
             ratio={0}
             onDragStart={(e) => {
+              if (isHandMode) return e.stop();
+
               const moveable = moveableRef.current!;
               const target = e.inputEvent.target;
               if (

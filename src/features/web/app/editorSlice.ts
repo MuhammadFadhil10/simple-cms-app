@@ -5,12 +5,16 @@ import { EditorZoom } from "@/features/web";
 interface EditorState {
   zoomValue: EditorZoom;
   mousePosition: { x: number; y: number };
+  isHandMode: boolean;
+  isGrabWindow: boolean;
 }
 
 // Define the initial state using that type
 const initialState: EditorState = {
   zoomValue: 70,
   mousePosition: { x: 0, y: 0 },
+  isHandMode: false,
+  isGrabWindow: false,
 };
 
 export const editorSlice = createSlice({
@@ -47,6 +51,24 @@ export const editorSlice = createSlice({
     ) => {
       state.mousePosition = { x: action.payload.x, y: action.payload.y };
     },
+
+    toggleHandMode: (state, action: PayloadAction<boolean>) => {
+      if (action.payload) {
+        state.isHandMode = action.payload;
+
+        return;
+      }
+      state.isHandMode = !state.isHandMode;
+    },
+
+    toggleGrabWindow: (state, action: PayloadAction<boolean>) => {
+      if (action.payload) {
+        state.isGrabWindow = action.payload;
+
+        return;
+      }
+      state.isGrabWindow = !state.isGrabWindow;
+    },
   },
 });
 
@@ -55,6 +77,8 @@ export const {
   decrementZoom,
   changeZoomByValue,
   changeMousePosition,
+  toggleHandMode,
+  toggleGrabWindow,
 } = editorSlice.actions;
 
 export default editorSlice.reducer;
