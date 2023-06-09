@@ -78,22 +78,22 @@ export const useEventListener = () => {
         if (ev.pageX < oldX.current) {
           setMousePosition({
             ...mousePosition,
-            x: mousePosition.x - ev.screenX / 10,
+            x: mousePosition.x - ev.x / 25,
           });
         } else if (ev.pageX > oldX.current) {
           setMousePosition({
             ...mousePosition,
-            x: mousePosition.x + ev.screenX / 10,
+            x: mousePosition.x + ev.x / 25,
           });
         } else if (ev.pageY < oldY.current) {
           setMousePosition({
             ...mousePosition,
-            y: mousePosition.y - ev.screenY / 10,
+            y: mousePosition.y - ev.y / 25,
           });
         } else if (ev.pageY > oldY.current) {
           setMousePosition({
             ...mousePosition,
-            y: mousePosition.y + ev.screenY / 10,
+            y: mousePosition.y + ev.y / 25,
           });
         }
       }
