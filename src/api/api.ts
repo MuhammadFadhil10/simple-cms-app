@@ -21,7 +21,7 @@ Api.interceptors.response.use(
     // refresh token
     const originalRequest = err.config;
 
-    if (err?.response.status === 401 && !originalRequest._retry) {
+    if (err?.response?.status === 401 && !originalRequest._retry) {
       try {
         const currentToken = JSON.parse(localStorage.authUser)?.token;
         const response = await User.refreshtoken(currentToken);

@@ -5,7 +5,6 @@ export const useEventListener = () => {
   const {
     isHandMode,
     isGrabWindow,
-    mousePosition,
     setZoomValue,
     setMousePosition,
     setToggleHandMode,
@@ -14,6 +13,13 @@ export const useEventListener = () => {
 
   const oldX = React.useRef(0);
   const oldY = React.useRef(0);
+
+  const startX = React.useRef<number>(0);
+  const scrollLeft = React.useRef<number>(0);
+
+  const [mainPage, setMainPage] = React.useState<HTMLElement | undefined>(
+    undefined
+  );
 
   // zoom in zoom out
   const onWheel: React.WheelEventHandler<HTMLElement> = React.useCallback(
@@ -42,11 +48,12 @@ export const useEventListener = () => {
           return setToggleHandMode();
         }
         case "space": {
+          if (isGrabWindow) setToggleGrabWindow(false);
           return setToggleHandMode(false);
         }
       }
     },
-    [setToggleHandMode]
+    [isGrabWindow, setToggleGrabWindow, setToggleHandMode]
   );
 
   const onKeyDown = React.useCallback(
@@ -63,49 +70,45 @@ export const useEventListener = () => {
     [setToggleHandMode]
   );
 
-  const onMouseDown = React.useCallback(() => {
-    if (isHandMode) {
-      setToggleGrabWindow(true);
-    }
-  }, [isHandMode, setToggleGrabWindow]);
+  const onMouseDown = React.useCallback(
+    (ev: MouseEvent) => {
+      if (isHandMode) {
+        startX.current = ev.pageX;
+        scrollLeft.current = (mainPage as HTMLElement).scrollLeft;
+        setToggleGrabWindow(true);
+      }
+    },
+    [isHandMode, mainPage, setToggleGrabWindow]
+  );
 
   const onMouseUp = React.useCallback(() => {
-    if (isHandMode) setToggleGrabWindow(false);
+    if (isHandMode) {
+      setToggleGrabWindow(false);
+      // window.scrollTo(ev.screenX, ev.screenY);
+    }
   }, [isHandMode, setToggleGrabWindow]);
 
   const onMouseMove = React.useCallback(
     (ev: MouseEvent) => {
       if (isGrabWindow) {
-        if (ev.pageX < oldX.current) {
-          setMousePosition({
-            ...mousePosition,
-            x: mousePosition.x - ev.pageX / 10,
-          });
-        } else if (ev.pageX > oldX.current) {
-          setMousePosition({
-            ...mousePosition,
-            x: mousePosition.x + ev.pageX / 10,
-          });
-        } else if (ev.pageY < oldY.current) {
-          setMousePosition({
-            // ...mousePosition,
-            x: oldX.current,
-            y: mousePosition.y - ev.pageY / 10,
-          });
-        } else if (ev.pageY > oldY.current) {
-          setMousePosition({
-            // ...mousePosition,
-            x: oldX.current,
-            y: mousePosition.y + ev.pageY / 10,
-          });
-        }
+        // const x = ev.pageX - (mainPage as HTMLElement).offsetLeft;
+        // const walk = x - startX.current;
+
+        window.scrollTo(ev.screenX, ev.screenY);
+        // (mainPage as HTMLElement).scrollLeft = scrollLeft.current - walk;
       }
 
       oldX.current = ev.pageX;
       oldY.current = ev.pageY;
     },
-    [isGrabWindow, mousePosition, setMousePosition]
+    [isGrabWindow]
   );
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMainPage(document.getElementById("editor-main-page") as HTMLElement);
+    }
+  }, []);
 
   return {
     onWheel,
