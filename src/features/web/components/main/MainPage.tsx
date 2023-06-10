@@ -11,6 +11,7 @@ export const MainPage = React.memo(function MainPage() {
 
   return (
     <Stack
+      id="editor-main-page"
       justifyContent="center"
       alignItems="center"
       sx={{

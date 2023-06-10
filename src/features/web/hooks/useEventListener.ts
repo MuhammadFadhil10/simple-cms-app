@@ -11,6 +11,7 @@ export const useEventListener = () => {
     setToggleHandMode,
     setToggleGrabWindow,
   } = useAppStore();
+
   const oldX = React.useRef(0);
   const oldY = React.useRef(0);
 
@@ -78,22 +79,24 @@ export const useEventListener = () => {
         if (ev.pageX < oldX.current) {
           setMousePosition({
             ...mousePosition,
-            x: mousePosition.x - ev.x / 25,
+            x: mousePosition.x - ev.pageX / 10,
           });
         } else if (ev.pageX > oldX.current) {
           setMousePosition({
             ...mousePosition,
-            x: mousePosition.x + ev.x / 25,
+            x: mousePosition.x + ev.pageX / 10,
           });
         } else if (ev.pageY < oldY.current) {
           setMousePosition({
-            ...mousePosition,
-            y: mousePosition.y - ev.y / 25,
+            // ...mousePosition,
+            x: oldX.current,
+            y: mousePosition.y - ev.pageY / 10,
           });
         } else if (ev.pageY > oldY.current) {
           setMousePosition({
-            ...mousePosition,
-            y: mousePosition.y + ev.y / 25,
+            // ...mousePosition,
+            x: oldX.current,
+            y: mousePosition.y + ev.pageY / 10,
           });
         }
       }
