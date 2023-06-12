@@ -4,8 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import Divider from "@mui/material/Divider";
-import MinimizeIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
 import FitScreenIcon from "@mui/icons-material/Fullscreen";
 import { EditorZoom, useAppStore } from "@/features/web";
 
@@ -25,7 +23,9 @@ export const ZoomToolbar = React.memo(function ZoomToolbar() {
         setZoomValue(100);
 
         // centering section to screen
-        return window.scrollTo(window.innerWidth / 2, window.innerHeight / 2);
+        return (
+          document.getElementById("editor-page") as HTMLDivElement
+        ).scrollTo(window.innerWidth / 2, window.innerHeight / 2);
       }
 
       setZoomValue(zoom);
@@ -43,15 +43,6 @@ export const ZoomToolbar = React.memo(function ZoomToolbar() {
           gap: 1,
         }}
       >
-        <MinimizeIcon
-          fontSize="medium"
-          color="primary"
-          sx={{
-            height: "100%",
-            cursor: "pointer",
-            "&:hover": { backgroundColor: "#ccc", transition: "300ms" },
-          }}
-        />
         <FormControl variant="standard" size="small">
           <Select
             size="small"
@@ -76,15 +67,6 @@ export const ZoomToolbar = React.memo(function ZoomToolbar() {
             ))}
           </Select>
         </FormControl>
-        <AddIcon
-          fontSize="medium"
-          color="primary"
-          sx={{
-            height: "100%",
-            cursor: "pointer",
-            "&:hover": { backgroundColor: "#ccc", transition: "300ms" },
-          }}
-        />
       </Box>
     </>
   );

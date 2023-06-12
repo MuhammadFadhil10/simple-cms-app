@@ -7,6 +7,7 @@ import { Items } from "@/api/items";
 import { useRouter } from "next/router";
 
 export const useMoveable = () => {
+  // hooks
   const { pageId } = useRouter().query;
 
   const { mutateAsync: createItemMutation } = useGlobalMutation("CREATE_ITEM", [
@@ -24,13 +25,13 @@ export const useMoveable = () => {
     queryFn: () => Items.getItems(pageId as string),
   });
 
+  // memos
   const memoizedMovables: Item[] = React.useMemo(() => {
     if (!rawMovables) return [];
 
     return rawMovables as unknown as Item[];
   }, [rawMovables]);
 
-  // memos
   const acceptedItems: ItemTypes[] = React.useMemo(() => {
     return ["button", "media"];
   }, []);
@@ -116,6 +117,7 @@ export const useMoveable = () => {
         height: "100%",
         transform: "",
         overflow: "hidden",
+        cursor: "grab",
       };
     },
     []

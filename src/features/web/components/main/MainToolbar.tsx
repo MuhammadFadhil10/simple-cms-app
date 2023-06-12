@@ -11,11 +11,12 @@ export const MainToolbar = React.memo(function memo() {
       sx={{
         position: "fixed",
         top: 20,
-        right: 20,
+        right: 50,
         zIndex: 999,
         height: "30px",
         backgroundColor: "white",
         boxShadow: 5,
+        p: 1
       }}
     >
       <ZoomToolbar />
