@@ -80,6 +80,7 @@ export const TextFormatInput = React.memo(function TextFormatInput({
         minRows={2}
         size="small"
         value={value}
+        onKeyDown={(e) => e.stopPropagation()}
         onChange={(e) => {
           setValue(e.target.value);
           handleUpdateOutput(e.target.value);

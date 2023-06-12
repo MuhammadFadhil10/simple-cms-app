@@ -89,6 +89,7 @@ export const Form = React.memo(function Form({
                   )} */}
                   <TextField
                     {...field}
+                    onKeyDown={(e) => e.stopPropagation()}
                     size="small"
                     type={fieldInput.type}
                     sx={{ width: "100%", marginBottom: 3 }}

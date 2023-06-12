@@ -12,8 +12,6 @@ export const useEventListener = () => {
   } = useAppStore();
 
   const [position, setPosition] = React.useState({
-    top: 0,
-    left: 0,
     x: 0,
     y: 0,
   });
@@ -67,8 +65,6 @@ export const useEventListener = () => {
       if (isHandMode) {
         setPosition({
           ...position,
-          left: ev.currentTarget.scrollLeft,
-          top: ev.currentTarget.scrollTop,
           x: ev.clientX,
           y: ev.clientY,
         });
@@ -87,11 +83,9 @@ export const useEventListener = () => {
   const onMouseMove = React.useCallback(
     (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (isGrabWindow) {
-        ev.preventDefault();
+        // ev.preventDefault();
         setPosition({
           ...position,
-          left: ev.currentTarget.scrollLeft,
-          top: ev.currentTarget.scrollTop,
           x: ev.clientX,
           y: ev.clientY,
         });
@@ -100,8 +94,8 @@ export const useEventListener = () => {
         const dy = ev.clientY - position.y;
 
         // Scroll the element
-        ev.currentTarget.scrollTop = position.top - dy;
-        ev.currentTarget.scrollLeft = position.left - dx;
+        ev.currentTarget.scrollTop = ev.currentTarget.scrollTop - dy;
+        ev.currentTarget.scrollLeft = ev.currentTarget.scrollLeft - dx;
       }
     },
     [isGrabWindow, position]
