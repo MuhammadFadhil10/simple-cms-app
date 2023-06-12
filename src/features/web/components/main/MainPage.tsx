@@ -1,12 +1,11 @@
 import * as React from "react";
-
 import Stack from "@mui/material/Stack";
 import { Section } from "../section";
 import { useAppStore, useMain } from "@/features/web";
 import { MainToolbar } from "./MainToolbar";
 
 export const MainPage = React.memo(function MainPage() {
-  const { sidebarOpen, setSidebarOpen, onWheel } = useMain();
+  const { sidebarOpen, setSidebarOpen } = useMain();
   const { isHandMode, isGrabWindow } = useAppStore();
 
   return (
@@ -23,7 +22,7 @@ export const MainPage = React.memo(function MainPage() {
         cursor: isGrabWindow ? "grabbing" : isHandMode ? "grab" : "default",
       }}
       onClick={() => sidebarOpen && setSidebarOpen(false)}
-      onWheel={onWheel}
+      // onWheel={onWheel}
     >
       <MainToolbar />
       <Section />

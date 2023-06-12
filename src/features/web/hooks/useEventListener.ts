@@ -11,15 +11,12 @@ export const useEventListener = () => {
     setToggleGrabWindow,
   } = useAppStore();
 
-  const oldX = React.useRef(0);
-  const oldY = React.useRef(0);
-
-  const startX = React.useRef<number>(0);
-  const scrollLeft = React.useRef<number>(0);
-
-  const [mainPage, setMainPage] = React.useState<HTMLElement | undefined>(
-    undefined
-  );
+  const [position, setPosition] = React.useState({
+    top: 0,
+    left: 0,
+    x: 0,
+    y: 0,
+  });
 
   // zoom in zoom out
   const onWheel: React.WheelEventHandler<HTMLElement> = React.useCallback(
@@ -38,11 +35,8 @@ export const useEventListener = () => {
   );
 
   // keyup
-  const onKeyup = React.useCallback(
-    (ev: KeyboardEvent) => {
-      ev.stopPropagation();
-      ev.preventDefault();
-
+  const onKeyUp = React.useCallback(
+    (ev: React.KeyboardEvent<HTMLDivElement>) => {
       switch (ev.code.toLowerCase()) {
         case "keyh": {
           return setToggleHandMode();
@@ -57,13 +51,11 @@ export const useEventListener = () => {
   );
 
   const onKeyDown = React.useCallback(
-    (ev: KeyboardEvent) => {
-      ev.stopPropagation();
-      ev.preventDefault();
-
+    (ev: React.KeyboardEvent<HTMLDivElement>) => {
       switch (ev.code.toLowerCase()) {
         case "space": {
-          return setToggleHandMode(true);
+          ev.preventDefault();
+          setToggleHandMode(true);
         }
       }
     },
@@ -71,48 +63,53 @@ export const useEventListener = () => {
   );
 
   const onMouseDown = React.useCallback(
-    (ev: MouseEvent) => {
+    (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (isHandMode) {
-        startX.current = ev.pageX;
-        scrollLeft.current = (mainPage as HTMLElement).scrollLeft;
+        setPosition({
+          ...position,
+          left: ev.currentTarget.scrollLeft,
+          top: ev.currentTarget.scrollTop,
+          x: ev.clientX,
+          y: ev.clientY,
+        });
         setToggleGrabWindow(true);
       }
     },
-    [isHandMode, mainPage, setToggleGrabWindow]
+    [isHandMode, position, setToggleGrabWindow]
   );
 
   const onMouseUp = React.useCallback(() => {
     if (isHandMode) {
       setToggleGrabWindow(false);
-      // window.scrollTo(ev.screenX, ev.screenY);
     }
   }, [isHandMode, setToggleGrabWindow]);
 
   const onMouseMove = React.useCallback(
-    (ev: MouseEvent) => {
+    (ev: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       if (isGrabWindow) {
-        // const x = ev.pageX - (mainPage as HTMLElement).offsetLeft;
-        // const walk = x - startX.current;
+        ev.preventDefault();
+        setPosition({
+          ...position,
+          left: ev.currentTarget.scrollLeft,
+          top: ev.currentTarget.scrollTop,
+          x: ev.clientX,
+          y: ev.clientY,
+        });
 
-        window.scrollTo(ev.screenX, ev.screenY);
-        // (mainPage as HTMLElement).scrollLeft = scrollLeft.current - walk;
+        const dx = ev.clientX - position.x;
+        const dy = ev.clientY - position.y;
+
+        // Scroll the element
+        ev.currentTarget.scrollTop = position.top - dy;
+        ev.currentTarget.scrollLeft = position.left - dx;
       }
-
-      oldX.current = ev.pageX;
-      oldY.current = ev.pageY;
     },
-    [isGrabWindow]
+    [isGrabWindow, position]
   );
-
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      setMainPage(document.getElementById("editor-main-page") as HTMLElement);
-    }
-  }, []);
 
   return {
     onWheel,
-    onKeyup,
+    onKeyUp,
     onKeyDown,
     onMouseDown,
     onMouseUp,
